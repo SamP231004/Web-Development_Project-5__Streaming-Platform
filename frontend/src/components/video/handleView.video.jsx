@@ -3,7 +3,7 @@ export const handleWatch = async (video, videos, setVideos, setErrorMessage) => 
 
   try {
     // Send a request to increment the view count
-    const response = await fetch(`http://localhost:8000/api/version_1/video/${video._id}/increment-views`, {
+    const response = await fetch(`https://web-development-project-5-streaming-platform.vercel.app/api/version_1/video/${video._id}/increment-views`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${accessToken}`,

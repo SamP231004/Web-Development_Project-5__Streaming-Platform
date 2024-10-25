@@ -7,7 +7,7 @@ const GetLike = ({ videoId, accessToken }) => {
   const fetchLikeData = async () => {
     try {
       const countResponse = await axios.get(
-        `http://localhost:8000/api/version_1/likes/video/${videoId}/like-count`,
+        `https://web-development-project-5-streaming-platform.vercel.app/api/version_1/likes/video/${videoId}/like-count`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,

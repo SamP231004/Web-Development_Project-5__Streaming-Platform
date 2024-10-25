@@ -21,7 +21,7 @@ const Register = () => {
     if (coverImage) formData.append('coverImage', coverImage);
 
     try {
-      const response = await axios.post('http://localhost:8000/api/version_1/users/register', formData, {
+      const response = await axios.post('https://web-development-project-5-streaming-platform.vercel.app/api/version_1/users/register', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

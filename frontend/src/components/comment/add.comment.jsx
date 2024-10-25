@@ -18,7 +18,7 @@ const AddComment = ({ videoId, onCommentAdded }) => {
 
     try {
       const response = await axios.post(
-        `http://localhost:8000/api/version_1/comment/${videoId}`,
+        `https://web-development-project-5-streaming-platform.vercel.app/api/version_1/comment/${videoId}`,
         { content },
         { headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` } }
       );

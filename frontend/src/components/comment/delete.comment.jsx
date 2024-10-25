@@ -7,7 +7,7 @@ const DeleteComment = ({ commentId, onCommentDeleted }) => {
     const accessToken = localStorage.getItem('accessToken');
 
     try {
-      const response = await fetch(`http://localhost:8000/api/version_1/comment/channel/${commentId}`, {
+      const response = await fetch(`https://web-development-project-5-streaming-platform.vercel.app/api/version_1/comment/channel/${commentId}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${accessToken}`,

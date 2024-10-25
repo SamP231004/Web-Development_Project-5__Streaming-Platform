@@ -17,7 +17,7 @@ const UpdateComment = ({ commentId, initialContent, onCommentUpdated }) => {
     try {
       const accessToken = localStorage.getItem('accessToken');
       
-      const response = await fetch(`http://localhost:8000/api/version_1/comment/${commentId}`, {
+      const response = await fetch(`https://web-development-project-5-streaming-platform.vercel.app/api/version_1/comment/${commentId}`, {
         method: 'PATCH',
         headers: {
           Authorization: `Bearer ${accessToken}`,
