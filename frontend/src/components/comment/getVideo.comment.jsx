@@ -22,7 +22,7 @@ const GetVideoComments = ({ videoId, onCommentAdded }) => {
         setLoading(true);
         setError(null);
 
-        const response = await axios.get(`https://web-development-project-5-streaming-platform.vercel.app/api/version_1/comment/${videoId}`, {
+        const response = await axios.get(`https://streamingplatform-frontend.onrender.com/api/version_1/comment/${videoId}`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
