@@ -21,7 +21,7 @@ const App = () => {
       const token = localStorage.getItem('accessToken');
       if (token) {
         try {
-          const response = await axios.get('https://web-development-project-5-streaming-platform.vercel.app/api/version_1/users/current-user', {
+          const response = await axios.get('http://localhost:8000/api/version_1/users/current-user', {
             headers: {
               Authorization: `Bearer ${token}`,
             },
