@@ -15,7 +15,7 @@ app.use(cors(corsOptions));
 
 app.use(cors(
   {
-    origin: "htpps://deploy-mern-1whq.vercel.app",
+    origin: "https://web-development-project-5-streaming-platform-zwhp.vercel.app",
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   }
