@@ -9,7 +9,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('https://web-development-project-5-streaming-platform.vercel.app/api/version_1/users/login', {
+      const response = await axios.post('http://localhost:8000/api/version_1/users/login', {
         email,
         password,
       });

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const fetchAllVideos = async (accessToken) => {
   try {
-    const response = await axios.get('https://web-development-project-5-streaming-platform.vercel.app/api/version_1/video', {
+    const response = await axios.get('http://localhost:8000/api/version_1/video', {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
