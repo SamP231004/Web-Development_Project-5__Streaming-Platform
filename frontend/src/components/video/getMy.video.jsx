@@ -8,7 +8,7 @@ const MyVideos = () => {
         const fetchVideos = async () => {
             try {
                 const accessToken = localStorage.getItem('accessToken');
-                const response = await fetch('https://web-development-project-5-streaming-platform.vercel.app/api/version_1/video/my-videos', {
+                const response = await fetch('https://streamingplatformbackend.onrender.com/api/version_1/video/my-videos', {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,

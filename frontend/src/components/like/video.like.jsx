@@ -12,7 +12,7 @@ const VideoLike = ({ videoId, accessToken }) => {
     try {
       // Fetch like count
       const countResponse = await axios.get(
-        `https://web-development-project-5-streaming-platform.vercel.app/api/version_1/likes/video/${videoId}/like-count`,
+        `https://streamingplatformbackend.onrender.com/api/version_1/likes/video/${videoId}/like-count`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -24,7 +24,7 @@ const VideoLike = ({ videoId, accessToken }) => {
 
       // Fetch user's liked state
       const userLikedResponse = await axios.get(
-        `https://web-development-project-5-streaming-platform.vercel.app/api/version_1/likes/video/${videoId}/user-liked`,
+        `https://streamingplatformbackend.onrender.com/api/version_1/likes/video/${videoId}/user-liked`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -41,7 +41,7 @@ const VideoLike = ({ videoId, accessToken }) => {
   const toggleLike = async () => {
     try {
       const response = await axios.post(
-        `https://web-development-project-5-streaming-platform.vercel.app/api/version_1/likes/video/${videoId}/like`,
+        `https://streamingplatformbackend.onrender.com/api/version_1/likes/video/${videoId}/like`,
         {},
         {
           headers: {
