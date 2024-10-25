@@ -19,7 +19,7 @@ const GetMyLikes = () => {
         throw new Error("No authentication token found. Please log in.");
       }
 
-      const response = await axios.get("http://localhost:8000/api/version_1/likes/liked-videos", {
+      const response = await axios.get("https://web-development-project-5-streaming-platform.vercel.app/api/version_1/likes/liked-videos", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

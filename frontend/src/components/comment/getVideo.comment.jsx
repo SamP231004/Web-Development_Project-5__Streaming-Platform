@@ -22,7 +22,7 @@ const GetVideoComments = ({ videoId, onCommentAdded }) => {
         setLoading(true);
         setError(null);
 
-        const response = await axios.get(`http://localhost:8000/api/version_1/comment/${videoId}`, {
+        const response = await axios.get(`https://web-development-project-5-streaming-platform.vercel.app/api/version_1/comment/${videoId}`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -51,7 +51,7 @@ const GetVideoComments = ({ videoId, onCommentAdded }) => {
     }
 
     try {
-      const response = await axios.post(`http://localhost:8000/api/version_1/comment/${videoId}`, 
+      const response = await axios.post(`https://web-development-project-5-streaming-platform.vercel.app/api/version_1/comment/${videoId}`, 
         { content: newComment }, 
         {
           headers: {

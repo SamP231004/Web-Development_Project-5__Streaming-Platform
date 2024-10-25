@@ -36,7 +36,7 @@ const Dashboard = () => {
 
     try {
       const statsResponse = await axios.get(
-        "http://localhost:8000/api/version_1/dashboard/stats",
+        "https://web-development-project-5-streaming-platform.vercel.app/api/version_1/dashboard/stats",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -46,7 +46,7 @@ const Dashboard = () => {
       setChannelStats(statsResponse.data.data);
 
       const videosResponse = await axios.get(
-        "http://localhost:8000/api/version_1/video/my-videos",
+        "https://web-development-project-5-streaming-platform.vercel.app/api/version_1/video/my-videos",
         {
           headers: {
             Authorization: `Bearer ${token}`,
