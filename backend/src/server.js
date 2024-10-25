@@ -15,7 +15,7 @@ app.use(cors(corsOptions));
 
 app.use(cors(
   {
-    origin: "https://web-development-project-5-streaming-platform-zwhp.vercel.app",
+    origin: "https://streamingplatformbackend.onrender.com",
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   }
