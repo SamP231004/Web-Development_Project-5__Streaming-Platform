@@ -7,6 +7,7 @@ const GetVideoComments = ({ videoId, onCommentAdded }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [newComment, setNewComment] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -19,13 +20,8 @@ const GetVideoComments = ({ videoId, onCommentAdded }) => {
       }
 
       try {
-        setLoading(true);
-        setError(null);
-
-        const response = await axios.get(`https://streamingplatform-frontend.onrender.com/api/version_1/comment/${videoId}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
+        const response = await axios.get(`https://streamingplatformbackend.onrender.com/api/version_1/comment/${videoId}`, {
+          headers: { Authorization: `Bearer ${accessToken}` },
         });
 
         setComments(response.data.data.docs);
@@ -42,7 +38,6 @@ const GetVideoComments = ({ videoId, onCommentAdded }) => {
 
   const handleAddComment = async (event) => {
     event.preventDefault();
-
     const accessToken = localStorage.getItem('accessToken');
 
     if (!accessToken) {
@@ -50,26 +45,37 @@ const GetVideoComments = ({ videoId, onCommentAdded }) => {
       return;
     }
 
+    if (!newComment.trim()) {
+      setError('Comment cannot be empty');
+      return;
+    }
+
+    setSubmitting(true);
+    setError(null);
+
     try {
-      const response = await axios.post(`https://streamingplatformbackend.onrender.com/api/version_1/comment/${videoId}`, 
-        { content: newComment }, 
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
+      const response = await axios.post(
+        `https://streamingplatformbackend.onrender.com/api/version_1/comment/${videoId}`,
+        { content: newComment },
+        { headers: { Authorization: `Bearer ${accessToken}` } }
       );
 
       setComments((prevComments) => [...prevComments, response.data.data]);
       setNewComment('');
-      if (onCommentAdded) onCommentAdded();
+      onCommentAdded();
     } catch (error) {
       console.error('Error adding comment:', error);
       setError('Error adding comment');
+    } finally {
+      setSubmitting(false);
     }
   };
 
-return (
+  const handleCommentDeleted = (commentId) => {
+    setComments(comments.filter((comment) => comment._id !== commentId));
+  };
+
+  return (
     <div className="comments-section">
       {loading ? (
         <p className="loading-message">Loading comments...</p>
