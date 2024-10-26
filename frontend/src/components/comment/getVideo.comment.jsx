@@ -2,37 +2,36 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import DeleteComment from './delete.comment.jsx';
 
-const GetVideoComments = ({ videoId, onCommentAdded }) => {
+const GetVideoComments = ({ videoId }) => {
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [newComment, setNewComment] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
+  const fetchComments = async () => {
+    const accessToken = localStorage.getItem('accessToken');
+
+    if (!accessToken) {
+      setError('User is not authenticated');
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await axios.get(`https://streamingplatformbackend.onrender.com/api/version_1/comment/${videoId}`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      setComments(response.data.data.docs);
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+      setError('Error fetching comments');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchComments = async () => {
-      const accessToken = localStorage.getItem('accessToken');
-
-      if (!accessToken) {
-        setError('User is not authenticated');
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const response = await axios.get(`https://streamingplatformbackend.onrender.com/api/version_1/comment/${videoId}`, {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        });
-
-        setComments(response.data.data.docs);
-      } catch (error) {
-        console.error('Error fetching comments:', error);
-        setError('Error fetching comments');
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchComments();
   }, [videoId]);
 
@@ -62,17 +61,14 @@ const GetVideoComments = ({ videoId, onCommentAdded }) => {
 
       setComments((prevComments) => [...prevComments, response.data.data]);
       setNewComment('');
-      onCommentAdded();
-    } catch (error) {
+    } 
+    catch (error) {
       console.error('Error adding comment:', error);
       setError('Error adding comment');
-    } finally {
+    } 
+    finally {
       setSubmitting(false);
     }
-  };
-
-  const handleCommentDeleted = (commentId) => {
-    setComments(comments.filter((comment) => comment._id !== commentId));
   };
 
   return (
@@ -88,7 +84,7 @@ const GetVideoComments = ({ videoId, onCommentAdded }) => {
               <strong>{comment.owner.username}:</strong> {comment.content}
               <DeleteComment 
                 commentId={comment._id} 
-                onCommentDeleted={() => setComments(comments.filter(c => c._id !== comment._id))} 
+                onCommentDeleted={() => setComments((prevComments) => prevComments.filter(c => c._id !== comment._id))} 
               />
             </li>
           ))}
@@ -105,7 +101,9 @@ const GetVideoComments = ({ videoId, onCommentAdded }) => {
           placeholder="Add a comment..."
           required
         />
-        <button type="submit">Add Comment</button>
+        <button type="submit" disabled={submitting}>
+          {submitting ? 'Adding Comment...' : 'Add Comment'}
+        </button>
       </form>
     </div>
   );
