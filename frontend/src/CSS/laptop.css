@@ -699,6 +699,10 @@ body::before {
 
     }
 
+    .video-duration {
+        right: -325px;
+    }
+
     .video-player video {
         margin: 0;
         width: 100%;
