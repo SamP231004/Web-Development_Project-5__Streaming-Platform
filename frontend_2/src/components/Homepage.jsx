@@ -13,6 +13,7 @@ const Homepage = ({ currentUser }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [errorMsg, setErrorMessage] = useState('');
   const [selectedVideo, setSelectedVideo] = useState(null);
+  const [hoveredVideo, setHoveredVideo] = useState(null);
 
   const fetchVideos = async () => {
     const accessToken = localStorage.getItem('accessToken');
@@ -45,8 +46,6 @@ const Homepage = ({ currentUser }) => {
     handleWatch(video, videos, setVideos, setErrorMessage);
     handleWatchNow(video);
   };
-
-  const [hoveredVideo, setHoveredVideo] = useState(null);
 
   const handleMouseEnter = (video) => {
     setHoveredVideo(video);
@@ -99,7 +98,7 @@ const Homepage = ({ currentUser }) => {
                 src={hoveredVideo.videoFile}
                 autoPlay
                 loop
-                // muted
+                muted
                 style={{
                   position: 'absolute',
                   top: 0,
@@ -113,6 +112,7 @@ const Homepage = ({ currentUser }) => {
               />
             )}
           </div>
+
           <div className="videosContainer">
             {videos.map((video) => (
               <div
@@ -140,6 +140,7 @@ const Homepage = ({ currentUser }) => {
       ) : (
         <p>No videos available.</p>
       )}
+
       {selectedVideo && selectedVideo.videoFile && (
         <div className="video-player">
           <div className="video-header">
@@ -152,13 +153,9 @@ const Homepage = ({ currentUser }) => {
             <source src={selectedVideo.videoFile} type="video/mp4" />
           </video>
           <VideoLike videoId={selectedVideo._id} accessToken={localStorage.getItem('accessToken')} />
-          <p>
-            <u>Video Description :</u>
-          </p>
+          <p><u>Video Description :</u></p>
           <p style={{ whiteSpace: 'pre-wrap' }}>{selectedVideo.description}</p>
-          <p>
-            <u>Comments :</u>
-          </p>
+          <p><u>Comments :</u></p>
           <GetVideoComments videoId={selectedVideo._id} />
         </div>
       )}

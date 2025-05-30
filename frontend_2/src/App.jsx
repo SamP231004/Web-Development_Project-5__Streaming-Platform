@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, Routes, Route } from 'react-router-dom';
-import axios from 'axios'; 
+import axios from 'axios'; // Import axios for API calls
 
-import Layout from './components/Layout';
-import Homepage from './components/Homepage';
-import MyVideos from './components/video/getMy.video';
-import GetMyLikes from './components/like/getMy.like'; 
-import PublishVideo from './components/video/publish.video'; 
-import Dashboard from './components/dashboard/stats.dashboard'; 
-import Login from './components/user/Login.user'; 
-import Register from './components/user/Register.user';
+// Import your components
+import Layout from './components/Layout'; // Adjust the path as needed
+import Homepage from './components/Homepage'; // Adjust the path as needed
+import MyVideos from './components/video/getMy.video'; // Adjust the path as needed
+import GetMyLikes from './components/like/getMy.like'; // Adjust the path as needed
+import PublishVideo from './components/video/publish.video'; // Adjust the path as needed
+import Dashboard from './components/dashboard/stats.dashboard'; // Adjust the path as needed
+import Login from './components/user/Login.user'; // Adjust the path as needed
+import Register from './components/user/Register.user'; // Adjust the path as needed
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Move this inside the App component
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
