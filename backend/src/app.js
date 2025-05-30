@@ -26,9 +26,11 @@ app.use((req, res, next) => {
 });
 
 app.use(cors({
-  origin: [process.env.CORS_ORIGIN, 'https://streamingplatformbackend.onrender.com'],
+  origin: 'https://streamingplatform-frontend.onrender.com',
   credentials: true,
 }));
+
+app.options('*', cors());
 
 app.use(express.json({ limit: '3gb' }));
 app.use(express.urlencoded({ extended: true, limit: '3gb' }));
