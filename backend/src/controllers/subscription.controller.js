@@ -103,13 +103,36 @@ const getSubscribedChannels = asyncHandler(async (req, res) => {
                             localField: "_id",
                             foreignField: "owner",
                             as: "videos",
+                            pipeline: [
+                                {
+                                    $project: {
+                                        _id: 1,
+                                        title: 1,
+                                        description: 1,
+                                        duration: 1,
+                                        views: 1,
+                                        owner: 1,
+                                        createdAt: 1,
+                                        videoFile: 1,
+                                        thumbnail: 1,
+                                    }
+                                }
+                            ]
                         },
                     },
                     {
                         $addFields: {
-                            latestVideo: { $last: "$videos" },
+                            latestVideo: { $last: "$videos" }
                         },
                     },
+                    {
+                        $project: {
+                            username: 1,
+                            fullName: 1,
+                            avatar: 1,
+                            latestVideo: 1,
+                        }
+                    }
                 ],
             },
         },
@@ -117,23 +140,7 @@ const getSubscribedChannels = asyncHandler(async (req, res) => {
         {
             $project: {
                 _id: 0,
-                subscribedChannel: {
-                    _id: 1,
-                    username: 1,
-                    fullName: 1,
-                    "avatar.url": 1,
-                    latestVideo: {
-                        _id: 1,
-                        "videoFile.url": 1,
-                        "thumbnail.url": 1,
-                        owner: 1,
-                        title: 1,
-                        description: 1,
-                        duration: 1,
-                        createdAt: 1,
-                        views: 1,
-                    },
-                },
+                subscribedChannel: 1,
             },
         },
     ]);
