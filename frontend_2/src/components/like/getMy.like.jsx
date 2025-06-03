@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import GetLike from './get.like.jsx';
 import { handleWatch } from '../video/handleView.video.jsx';
+
+const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 const GetMyLikes = () => {
   const [likedVideos, setLikedVideos] = useState([]);
@@ -19,7 +21,7 @@ const GetMyLikes = () => {
         throw new Error("No authentication token found. Please log in.");
       }
 
-      const response = await axios.get("https://streamingplatformbackend.onrender.com/api/version_1/likes/liked-videos", {
+      const response = await axios.get(`${API_URL}/api/version_1/likes/liked-videos`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -28,7 +30,8 @@ const GetMyLikes = () => {
       setLikedVideos(response.data?.data || []);
       setVideos(response.data?.data.map((v) => v.likedVideo) || []);
       setLoading(false);
-    } catch (err) {
+    }
+    catch (err) {
       setError("Failed to fetch liked videos. Please log in.");
       setLoading(false);
     }

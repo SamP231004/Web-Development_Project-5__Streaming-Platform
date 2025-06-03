@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+
+const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 const Dashboard = () => {
   const [channelStats, setChannelStats] = useState({
@@ -36,7 +38,7 @@ const Dashboard = () => {
 
     try {
       const statsResponse = await axios.get(
-        "https://streamingplatformbackend.onrender.com/api/version_1/dashboard/stats",
+        `${API_URL}/api/version_1/dashboard/stats`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -46,7 +48,7 @@ const Dashboard = () => {
       setChannelStats(statsResponse.data.data);
 
       const videosResponse = await axios.get(
-        "https://streamingplatformbackend.onrender.com/api/version_1/video/my-videos",
+        `${API_URL}/api/version_1/video/my-videos`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

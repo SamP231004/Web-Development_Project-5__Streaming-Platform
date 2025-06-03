@@ -1,8 +1,10 @@
 import axios from 'axios';
 
+const API_URL = import.meta.env.VITE_BACKEND_URL;
+
 export const fetchAllVideos = async (accessToken) => {
   try {
-    const response = await axios.get('https://streamingplatformbackend.onrender.com/api/version_1/video', {
+    const response = await axios.get(`${API_URL}/api/version_1/video`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },

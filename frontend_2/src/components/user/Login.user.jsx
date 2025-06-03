@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+const API_URL = import.meta.env.VITE_BACKEND_URL;
+
 const Login = () => {
   const [email, setEmail] = useState('one@one.com');
   const [password, setPassword] = useState('password');
@@ -9,7 +11,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('https://streamingplatformbackend.onrender.com/api/version_1/users/login', {
+      const response = await axios.post(`${API_URL}/api/version_1/users/login`, {
         email,
         password,
       });
@@ -33,7 +35,8 @@ const Login = () => {
         navigate('/');
         window.location.reload();
       }
-    } catch (error) {
+    } 
+    catch (error) {
       console.error('Login Failed:', error);
     }
   };

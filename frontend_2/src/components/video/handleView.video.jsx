@@ -1,9 +1,11 @@
+const API_URL = import.meta.env.VITE_BACKEND_URL;
+
 export const handleWatch = async (video, videos, setVideos, setErrorMessage) => {
   const accessToken = localStorage.getItem('accessToken');
 
   try {
     // Send a request to increment the view count
-    const response = await fetch(`https://streamingplatformbackend.onrender.com/api/version_1/video/${video._id}/increment-views`, {
+    const response = await fetch(`${API_URL}/api/version_1/video/${video._id}/increment-views`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${accessToken}`,

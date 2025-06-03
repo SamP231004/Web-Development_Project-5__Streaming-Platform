@@ -1,13 +1,13 @@
-import React from 'react';
-
 import deleteIcon from '../../Images_Used/image_6.png';
+
+const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 const DeleteComment = ({ commentId, onCommentDeleted }) => {
   const handleDelete = async () => {
     const accessToken = localStorage.getItem('accessToken');
 
     try {
-      const response = await fetch(`https://streamingplatformbackend.onrender.com/api/version_1/comment/channel/${commentId}`, {
+      const response = await fetch(`${API_URL}/api/version_1/comment/channel/${commentId}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -20,7 +20,8 @@ const DeleteComment = ({ commentId, onCommentDeleted }) => {
       }
 
       onCommentDeleted(commentId);
-    } catch (error) {
+    } 
+    catch (error) {
       console.error('Error deleting comment:', error);
       alert(error.message);
     }
@@ -28,7 +29,7 @@ const DeleteComment = ({ commentId, onCommentDeleted }) => {
 
   return (
     <img
-      src = {deleteIcon}
+      src={deleteIcon}
       alt="Delete"
       onClick={handleDelete}
       className="delete-icon"

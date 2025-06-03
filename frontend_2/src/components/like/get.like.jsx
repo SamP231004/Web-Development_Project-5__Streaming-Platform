@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
+
+const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 const GetLike = ({ videoId, accessToken }) => {
   const [likeCount, setLikeCount] = useState(0);
@@ -7,7 +9,7 @@ const GetLike = ({ videoId, accessToken }) => {
   const fetchLikeData = async () => {
     try {
       const countResponse = await axios.get(
-        `https://streamingplatformbackend.onrender.com/api/version_1/likes/video/${videoId}/like-count`,
+        `${API_URL}/api/version_1/likes/video/${videoId}/like-count`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -15,7 +17,8 @@ const GetLike = ({ videoId, accessToken }) => {
         }
       );
       setLikeCount(countResponse.data.data.likeCount);
-    } catch (error) {
+    } 
+    catch (error) {
       console.error('Error fetching like count:', error);
     }
   };
