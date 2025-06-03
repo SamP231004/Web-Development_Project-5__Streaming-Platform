@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+const API_URL = import.meta.env.VITE_BACKEND_URL;
+
 const Register = () => {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -21,7 +23,7 @@ const Register = () => {
     if (coverImage) formData.append('coverImage', coverImage);
 
     try {
-      const response = await axios.post('https://streamingplatformbackend.onrender.com/api/version_1/users/register', formData, {
+      const response = await axios.post(`${API_URL}/api/version_1/users/register`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -40,7 +42,8 @@ const Register = () => {
       if (error.response) {
         console.error('Registration Failed:', error.response.data);
         alert(`Registration Failed: ${error.response.data.message}`);
-      } else {
+      } 
+      else {
         console.error('Error:', error.message);
         alert('An unexpected error occurred. Please try again later.');
       }

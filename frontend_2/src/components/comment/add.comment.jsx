@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
+
+const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 const AddComment = ({ videoId, onCommentAdded }) => {
   const [content, setContent] = useState('');
@@ -18,7 +20,7 @@ const AddComment = ({ videoId, onCommentAdded }) => {
 
     try {
       const response = await axios.post(
-        `https://streamingplatformbackend.onrender.com/api/version_1/comment/${videoId}`,
+        `${API_URL}/api/version_1/comment/${videoId}`,
         { content },
         { headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` } }
       );
@@ -27,10 +29,12 @@ const AddComment = ({ videoId, onCommentAdded }) => {
         onCommentAdded(response.data.data);
         setContent('');
       }
-    } catch (error) {
+    } 
+    catch (error) {
       console.error('Error adding comment:', error);
       setError('Failed to add comment');
-    } finally {
+    } 
+    finally {
       setLoading(false);
     }
   };

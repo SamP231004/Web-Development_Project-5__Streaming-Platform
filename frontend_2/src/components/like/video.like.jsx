@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import like from '../../Images_Used/image_5.png'
 
+const API_URL = import.meta.env.VITE_BACKEND_URL;
+
 const VideoLike = ({ videoId, accessToken }) => {
-  const [likeCount, setLikeCount] = useState(0); // State to store like count
-  const [isLiked, setIsLiked] = useState(false); // State to track if user liked the video
+  const [likeCount, setLikeCount] = useState(0);
+  const [isLiked, setIsLiked] = useState(false);
 
   // Fetch like count and liked state for the video
   const fetchLikeData = async () => {
     try {
       // Fetch like count
       const countResponse = await axios.get(
-        `https://streamingplatformbackend.onrender.com/api/version_1/likes/video/${videoId}/like-count`,
+        `${API_URL}/api/version_1/likes/video/${videoId}/like-count`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -24,7 +26,7 @@ const VideoLike = ({ videoId, accessToken }) => {
 
       // Fetch user's liked state
       const userLikedResponse = await axios.get(
-        `https://streamingplatformbackend.onrender.com/api/version_1/likes/video/${videoId}/user-liked`,
+        `${API_URL}/api/version_1/likes/video/${videoId}/user-liked`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -41,7 +43,7 @@ const VideoLike = ({ videoId, accessToken }) => {
   const toggleLike = async () => {
     try {
       const response = await axios.post(
-        `https://streamingplatformbackend.onrender.com/api/version_1/likes/video/${videoId}/like`,
+        `${API_URL}/api/version_1/likes/video/${videoId}/like`,
         {},
         {
           headers: {

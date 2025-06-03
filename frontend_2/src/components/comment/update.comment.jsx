@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+
+const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 const UpdateComment = ({ commentId, initialContent, onCommentUpdated }) => {
   const [content, setContent] = useState(initialContent);
@@ -17,7 +19,7 @@ const UpdateComment = ({ commentId, initialContent, onCommentUpdated }) => {
     try {
       const accessToken = localStorage.getItem('accessToken');
       
-      const response = await fetch(`https://streamingplatformbackend.onrender.com/api/version_1/comment/${commentId}`, {
+      const response = await fetch(`${API_URL}/api/version_1/comment/${commentId}`, {
         method: 'PATCH',
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -28,12 +30,15 @@ const UpdateComment = ({ commentId, initialContent, onCommentUpdated }) => {
 
       if (response.ok) {
         onCommentUpdated(content);
-      } else {
+      } 
+      else {
         throw new Error('Failed to update comment. You might not be the owner.');
       }
-    } catch (error) {
+    } 
+    catch (error) {
       setError(error.message);
-    } finally {
+    } 
+    finally {
       setLoading(false);
     }
   };

@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import DeleteComment from './delete.comment.jsx';
+
+const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 const GetVideoComments = ({ videoId }) => {
   const [comments, setComments] = useState([]);
@@ -19,14 +21,16 @@ const GetVideoComments = ({ videoId }) => {
     }
 
     try {
-      const response = await axios.get(`https://streamingplatformbackend.onrender.com/api/version_1/comment/${videoId}`, {
+      const response = await axios.get(`${API_URL}/api/version_1/comment/${videoId}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       setComments(response.data.data.docs);
-    } catch (error) {
+    } 
+    catch (error) {
       console.error('Error fetching comments:', error);
       setError('Error fetching comments');
-    } finally {
+    } 
+    finally {
       setLoading(false);
     }
   };
@@ -54,7 +58,7 @@ const GetVideoComments = ({ videoId }) => {
 
     try {
       const response = await axios.post(
-        `https://streamingplatformbackend.onrender.com/api/version_1/comment/${videoId}`,
+        `${API_URL}/api/version_1/comment/${videoId}`,
         { content: newComment },
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );

@@ -1,6 +1,8 @@
 import React, { useRef, useState } from 'react';
 import axios from 'axios';
 
+const API_URL = import.meta.env.VITE_BACKEND_URL;
+
 export default function VideoUpload() {
     const [thumbnailPreview, setThumbnailPreview] = useState(null);
     const [videoPreview, setVideoPreview] = useState(null);
@@ -71,7 +73,7 @@ export default function VideoUpload() {
         formData.append('videoFile', videoFileInputRef.current.files[0]);
 
         try {
-            const response = await axios.post('https://streamingplatformbackend.onrender.com/api/version_1/video', formData, {
+            const response = await axios.post(`${API_URL}/api/version_1/video`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${accessToken}`,

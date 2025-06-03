@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
+const API_URL = import.meta.env.VITE_BACKEND_URL;
+
 const MyVideos = () => {
     const [videos, setVideos] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -8,7 +10,7 @@ const MyVideos = () => {
         const fetchVideos = async () => {
             try {
                 const accessToken = localStorage.getItem('accessToken');
-                const response = await fetch('https://streamingplatformbackend.onrender.com/api/version_1/video/my-videos', {
+                const response = await fetch(`${API_URL}/api/version_1/video/my-videos`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
