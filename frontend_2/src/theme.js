@@ -96,6 +96,14 @@ const theme = createTheme({
     },
   },
   components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        '.css-rf1rdx': {
+          // padding: '1vh !important',
+          backgroundColor: 'transparent !important',
+        },
+      }
+    },
     MuiButton: {
       styleOverrides: {
         root: {

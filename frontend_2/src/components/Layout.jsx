@@ -11,7 +11,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 
-import image_1 from '../Images_Used/image_1.jpg';
+import image_1 from '../Images_Used/image_1.png';
 import image_2 from '../Images_Used/image_2.png';
 import image_3 from '../Images_Used/image_3.png';
 import image_4 from '../Images_Used/image_4.png';
@@ -42,7 +42,7 @@ const Layout = ({ children, currentUser, onLogout }) => {
   return (
     <Box sx={{ display: 'flex' }}>
       {/* Header */}
-      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, backgroundColor: 'background.paper' }}>
+      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, backgroundColor: 'transparent', marginX: { xs: 0, md: '15px' }, marginY: {xs: 0, md: '10px'}, width: { xs: '100%', md: 'calc(100% - 30px)' }, boxShadow: '0 0px 6px rgba(0, 255, 255, 0.8)' }}>
         <Toolbar>
           {currentUser && (
             <IconButton
@@ -50,7 +50,7 @@ const Layout = ({ children, currentUser, onLogout }) => {
               aria-label="open drawer"
               edge="start"
               onClick={toggleDrawer(true)}
-              sx={{ mr: 2, display: { md: 'none' } }}
+              sx={{ mr: 2, display: { md: 'none' }} }
             >
               <MenuIcon />
             </IconButton>
@@ -59,7 +59,7 @@ const Layout = ({ children, currentUser, onLogout }) => {
             <motion.img
               src={image_1}
               alt="StreamingPlatform Logo"
-              style={{ height: '40px', marginRight: '10px' }}
+              style={{ height: '40px', marginRight: '10px', filter: 'invert(1)' }}
               whileHover={{ rotate: 5 }}
             />
             <Typography variant="h6" component="div" sx={{ color: 'text.primary' }}>
@@ -67,21 +67,23 @@ const Layout = ({ children, currentUser, onLogout }) => {
             </Typography>
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <motion.a href="https://samp231004.github.io/Portfolio/" target='_blank' rel="noreferrer" whileHover={{ scale: 1.1 }}>
-              <IconButton color="inherit" sx={{ mx: 1 }}>
-                <img src={image_2} alt="Portfolio" style={{ height: '24px' }} />
-              </IconButton>
-            </motion.a>
-            <motion.a href="https://www.linkedin.com/in/samp2310/" target='_blank' rel="noreferrer" whileHover={{ scale: 1.1 }}>
-              <IconButton color="inherit" sx={{ mx: 1 }}>
-                <img src={image_3} alt="LinkedIn" style={{ height: '24px' }} />
-              </IconButton>
-            </motion.a>
-            <motion.a href="https://github.com/SamP231004" target='_blank' rel="noreferrer" whileHover={{ scale: 1.1 }}>
-              <IconButton color="inherit" sx={{ mx: 1 }}>
-                <img src={image_4} alt="GitHub" style={{ height: '24px' }} />
-              </IconButton>
-            </motion.a>
+            <div style={{ display: 'flex', alignItems: 'center',  position: 'fixed', flexDirection: 'column', right: 0, bottom: 0, padding: '0px', zIndex: 1000 }}>
+              <motion.a href="https://samp231004.github.io/Portfolio/" target='_blank' rel="noreferrer" whileHover={{ scale: 1.2 }}>
+                <IconButton color="inherit" sx={{ mx: 1 }}>
+                  <img src={image_2} alt="Portfolio" style={{ height: '24px', filter: 'invert(1)' }} />
+                </IconButton>
+              </motion.a>
+              <motion.a href="https://www.linkedin.com/in/samp2310/" target='_blank' rel="noreferrer" whileHover={{ scale: 1.2 }}>
+                <IconButton color="inherit" sx={{ mx: 1 }}>
+                  <img src={image_3} alt="LinkedIn" style={{ height: '24px', filter: 'invert(1)' }} />
+                </IconButton>
+              </motion.a>
+              <motion.a href="https://github.com/SamP231004" target='_blank' rel="noreferrer" whileHover={{ scale: 1.2 }}>
+                <IconButton color="inherit" sx={{ mx: 1 }}>
+                  <img src={image_4} alt="GitHub" style={{ height: '24px', filter: 'invert(1)' }} />
+                </IconButton>
+              </motion.a>
+            </div>
             {currentUser ? (
               <>
                 <Avatar src={userAvatar} alt={username} sx={{ ml: 2, mr: 1, border: '2px solid', borderColor: 'primary.main' }} />

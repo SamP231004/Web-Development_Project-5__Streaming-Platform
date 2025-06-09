@@ -18,6 +18,8 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import { motion, AnimatePresence } from 'framer-motion';
 
+import LandingPage from '../LandingPage.jsx';
+
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 const Homepage = ({ currentUser }) => {
@@ -42,10 +44,10 @@ const Homepage = ({ currentUser }) => {
     try {
       const videoData = await fetchAllVideos(token);
       setVideos(videoData);
-    }
+    } 
     catch (error) {
       setErrorMessage(error.message || 'Failed to load videos.');
-    }
+    } 
     finally {
       setIsLoading(false);
     }
@@ -59,7 +61,7 @@ const Homepage = ({ currentUser }) => {
         authHeaders
       );
       setPlaylists(res.data.data || []);
-    }
+    } 
     catch (err) {
       console.error('Failed to fetch playlists:', err);
     }
@@ -68,7 +70,9 @@ const Homepage = ({ currentUser }) => {
   useEffect(() => {
     if (location.pathname === '/') {
       fetchVideos();
-      fetchPlaylists();
+      if (currentUser) {
+        fetchPlaylists();
+      }
     }
   }, [location.pathname, currentUser]);
 
@@ -116,11 +120,11 @@ const Homepage = ({ currentUser }) => {
         authHeaders
       );
       alert('Video added to playlist!');
-    }
+    } 
     catch (err) {
       console.error('Failed to add video to playlist:', err);
       alert(err.response?.data?.message || 'Failed to add video to playlist.');
-    }
+    } 
     finally {
       setAddingVideoId(null);
     }
@@ -177,40 +181,7 @@ const Homepage = ({ currentUser }) => {
   };
 
   if (!currentUser) {
-    return (
-      <Box
-        sx={{
-          textAlign: 'center',
-          mt: 10,
-          color: 'text.primary',
-          p: 3,
-          bgcolor: 'background.default',
-          minHeight: 'calc(100vh - 64px)',
-        }}
-      >
-        <Typography variant="h4" gutterBottom>
-          Welcome to our platform!
-        </Typography>
-        <Typography variant="body1" sx={{ mb: 4 }}>
-          Please log in or register to view videos and manage your content.
-        </Typography>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => navigate('/login')}
-          sx={{ mr: 2 }}
-        >
-          Login
-        </Button>
-        <Button
-          variant="outlined"
-          color="secondary"
-          onClick={() => navigate('/register')}
-        >
-          Register
-        </Button>
-      </Box>
-    );
+    return <LandingPage onGetStarted={() => navigate('/login')} />;
   }
 
   return (
@@ -255,7 +226,7 @@ const Homepage = ({ currentUser }) => {
             animate="visible"
           >
             <Grid container spacing={3} sx={{ mb: 5 }}>
-              {videos.slice(0, 5).map((video) => (
+              {videos.slice(0, 6).map((video) => (
                 <Grid item xs={12} sm={6} md={4} lg={3} key={video._id}>
                   <motion.div
                     variants={featuredItemVariants}
@@ -297,7 +268,7 @@ const Homepage = ({ currentUser }) => {
                       >
                         <AnimatePresence mode="wait">
                           {hoveredVideo?._id === video._id &&
-                            hoveredVideo.videoFile ? (
+                          hoveredVideo.videoFile ? (
                             <motion.video
                               key="video-preview"
                               src={hoveredVideo.videoFile}
@@ -359,7 +330,7 @@ const Homepage = ({ currentUser }) => {
                           height: '0%',
                         }}
                       >
-
+                        {/* Content for featured video cards goes here if needed */}
                       </CardContent>
                     </Card>
                   </motion.div>
@@ -369,7 +340,13 @@ const Homepage = ({ currentUser }) => {
           </motion.div>
 
           {/* Separator line */}
-          <hr style={{ border: 'none', borderTop: '1px dashed #666', margin: '40px 0' }} />
+          <hr
+            style={{
+              border: 'none',
+              borderTop: '1px dashed #666',
+              margin: '40px 0',
+            }}
+          />
 
           {/* All Videos Section */}
           <Typography
@@ -388,7 +365,10 @@ const Homepage = ({ currentUser }) => {
                 <Grid item xs={12} sm={6} md={4} lg={3} key={video._id}>
                   <motion.div
                     variants={itemVariants}
-                    whileHover={{ scale: 1.03, boxShadow: '0px 8px 16px rgba(0,0,0,0.4)' }}
+                    whileHover={{
+                      scale: 1.03,
+                      boxShadow: '0px 8px 16px rgba(0,0,0,0.4)',
+                    }}
                     transition={{ duration: 0.2 }}
                     style={{ height: '100%' }}
                     onMouseEnter={() => handleCardMouseEnter(video)}
@@ -520,7 +500,7 @@ const Homepage = ({ currentUser }) => {
                             </Typography>
                             {/* Subscription Button beside title */}
                             {video.ownerDetails?._id &&
-                              currentUser._id !== video.ownerDetails._id ? (
+                            currentUser._id !== video.ownerDetails._id ? (
                               <Box sx={{ flexShrink: 0, ml: 'auto' }}>
                                 {' '}
                                 {/* Removed minWidth as it's now handled by the button itself */}
@@ -539,7 +519,6 @@ const Homepage = ({ currentUser }) => {
                               />
                             )}
                           </Box>
-
                           <Box sx={{ minHeight: '20px' }}>
                             {' '}
                             {/* Consistent height for channel chip area */}
@@ -733,11 +712,11 @@ const Homepage = ({ currentUser }) => {
                 />
               )}
               {selectedVideo?.ownerDetails?._id &&
-                currentUser._id !== selectedVideo.ownerDetails._id && (
-                  <ToggleSubscriptionButton
-                    channelId={selectedVideo.ownerDetails._id}
-                  />
-                )}
+              currentUser._id !== selectedVideo.ownerDetails._id && (
+                <ToggleSubscriptionButton
+                  channelId={selectedVideo.ownerDetails._id}
+                />
+              )}
             </Box>
             <Typography
               variant="subtitle1"
