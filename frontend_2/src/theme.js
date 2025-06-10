@@ -118,7 +118,14 @@ const theme = createTheme({
         '.css-145zdea' : {          
           backgroundColor: 'transparent !important',
           margin: '0 !important',
-        }
+        },
+        '.css-12bua5h-MuiDrawer-docked .MuiDrawer-paper': {
+          height: 'fit-content',
+          margin: '25vh 0.3vw',
+          backgroundColor: 'rgba(0, 0, 0, 0.5) !important',
+          border: '2px solid white'
+        },
+
       }
     },
     MuiButton: {
@@ -290,6 +297,9 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           '--Grid-columnSpacing': '45px',
+          '&.MuiGrid-container': {
+            justifyContent: 'center',
+          }
         },
       },
     },

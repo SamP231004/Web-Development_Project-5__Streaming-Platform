@@ -22,8 +22,7 @@ const ToggleSubscriptionButton = ({ channelId }) => {
         },
       }
     );
-    console.log('Subscription API response:', res.data);
-    // Set isSubscribed based on presence of subscription record
+    // console.log('Subscription API response:', res.data);
     setIsSubscribed(res.data.data.length > 0);
   } catch (err) {
     console.error('Error checking subscription:', err);
@@ -68,6 +67,14 @@ const ToggleSubscriptionButton = ({ channelId }) => {
         <div>
             {error && <p style={{ color: 'red' }}>{error}</p>}
             <button
+                style={{
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    color: 'white',
+                    borderRadius: '10px',
+                    padding: '8px 16px',
+                    border: '0.5px solid white',
+                    cursor: 'pointer'
+                }}
                 onClick={(e) => {
                     e.stopPropagation();
                     handleToggle();

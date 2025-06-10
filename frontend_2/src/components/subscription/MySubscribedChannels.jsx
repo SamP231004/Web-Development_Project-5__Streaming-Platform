@@ -31,14 +31,16 @@ const MySubscribedChannels = ({ subscriberId }) => {
           }
         );
 
-        console.log("API response data for subscribed channels:", response.data?.data);
+        // console.log("API response data for subscribed channels:", response.data?.data);
 
         setSubscribedChannels(response.data?.data || []);
-      } catch (err) {
+      } 
+      catch (err) {
         console.error("Fetch error:", err);
         const errorMessage = err.response?.data?.message || err.message || "Failed to fetch channels.";
         setError(errorMessage);
-      } finally {
+      } 
+      finally {
         setLoading(false);
       }
     };
@@ -46,7 +48,6 @@ const MySubscribedChannels = ({ subscriberId }) => {
     fetchSubscribedChannels();
   }, [subscriberId]);
 
-  // Updated handleVideoPlay: no backend call, just use the video passed in
   const handleVideoPlay = (video) => {
     if (!video.videoFile) {
       setErrorMessage("Video URL not available.");
@@ -78,7 +79,6 @@ const MySubscribedChannels = ({ subscriberId }) => {
               return null;
             }
 
-            // Destructure properties from subscribedChannel
             const { _id, avatar, username, fullName, latestVideo } = subscribedChannel;
 
             return (

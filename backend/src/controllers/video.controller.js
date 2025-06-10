@@ -36,7 +36,7 @@ const getAllVideos = asyncHandler(async (req, res) => {
       localField: "owner",
       foreignField: "_id",
       as: "ownerDetails",
-      pipeline: [{ $project: { username: 1, "avatar.url": 1 } }]
+      pipeline: [{ $project: { username: 1, 'avatar': 1 } }]
     }
   }, { $unwind: "$ownerDetails" });
 

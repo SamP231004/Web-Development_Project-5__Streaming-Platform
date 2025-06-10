@@ -40,9 +40,26 @@ const Layout = ({ children, currentUser, onLogout }) => {
   ];
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{
+      display: 'flex',
+      height: '100vh',
+      overflowY: 'auto',
+      overflowX: 'hidden',
+      position: 'relative',
+      '&::-webkit-scrollbar': {
+        width: '0px',
+        backgroundColor: 'transparent'
+      },
+      '&::-webkit-scrollbar-thumb': {
+        backgroundColor: 'rgba(255, 255, 255, 0.2)',
+        borderRadius: '4px',
+        '&:hover': {
+          backgroundColor: 'rgba(255, 255, 255, 0.3)'
+        }
+      }
+    }}>
       {/* Header */}
-      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, backgroundColor: 'transparent', marginX: { xs: 0, md: '15px' }, marginY: {xs: 0, md: '10px'}, width: { xs: '100%', md: 'calc(100% - 30px)' }, boxShadow: '0 0px 6px rgba(0, 255, 255, 0.8)' }}>
+      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, backgroundColor: 'rgba(0,0,0,0.5)', marginX: { xs: 0, md: '15px' }, marginY: {xs: 0, md: '10px'}, width: { xs: '100%', md: 'calc(100% - 30px)' }, boxShadow: '0 0px 6px rgba(0, 255, 255, 0.8)', backdropFilter: 'blur(10px)' }}>
         <Toolbar>
           {currentUser && (
             <IconButton
@@ -67,7 +84,7 @@ const Layout = ({ children, currentUser, onLogout }) => {
             </Typography>
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <div style={{ display: 'flex', alignItems: 'center',  position: 'fixed', flexDirection: 'column', right: 0, bottom: 0, padding: '0px', zIndex: 1000 }}>
+            <div style={{ display: 'flex', alignItems: 'center',  position: 'fixed', flexDirection: 'column', right: '-1vw', top: '80vh', padding: '0px', zIndex: 1000 }}>
               <motion.a href="https://samp231004.github.io/Portfolio/" target='_blank' rel="noreferrer" whileHover={{ scale: 1.2 }}>
                 <IconButton color="inherit" sx={{ mx: 1 }}>
                   <img src={image_2} alt="Portfolio" style={{ height: '24px', filter: 'invert(1)' }} />
@@ -107,19 +124,10 @@ const Layout = ({ children, currentUser, onLogout }) => {
             width: 240,
             flexShrink: 0,
             [`& .MuiDrawer-paper`]: { width: 240, boxSizing: 'border-box', backgroundColor: 'background.paper', borderRight: '1px solid #333' },
-            display: { xs: 'none', md: 'block' },
+            display: { xs: 'none', md: 'block' }
           }}
         >
-          <Toolbar /> {/* Spacer for header */}
-          <Box sx={{ overflow: 'auto', p: 2 }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 3 }}>
-              {userAvatar ? (
-                <Avatar src={userAvatar} alt={`${username}'s avatar`} sx={{ width: 80, height: 80, mb: 1, border: '3px solid', borderColor: 'primary.main' }} />
-              ) : (
-                <Avatar sx={{ width: 80, height: 80, mb: 1, bgcolor: 'primary.main', fontSize: '1.5rem' }}>{username ? username[0].toUpperCase() : '?'}</Avatar>
-              )}
-              <Typography variant="h6" sx={{ color: 'text.primary' }}>{username || 'Guest'}</Typography>
-            </Box>
+          <Box sx={{ p: 2}}>
             <List>
               {menuItems.map((item) => (
                 <ListItem
@@ -146,22 +154,6 @@ const Layout = ({ children, currentUser, onLogout }) => {
                   <ListItemText primary={item.text} sx={{ color: 'text.primary' }} />
                 </ListItem>
               ))}
-              <ListItem
-                button
-                onClick={onLogout}
-                sx={{
-                  borderRadius: '8px',
-                  mb: 1,
-                  mt: 2,
-                  backgroundColor: 'secondary.main',
-                  '&:hover': {
-                    backgroundColor: 'secondary.dark',
-                  },
-                }}
-              >
-                <ListItemIcon sx={{ color: 'white' }}><ExitToAppIcon /></ListItemIcon>
-                <ListItemText primary="Logout" sx={{ color: 'white' }} />
-              </ListItem>
             </List>
           </Box>
         </Drawer>
@@ -183,14 +175,6 @@ const Layout = ({ children, currentUser, onLogout }) => {
             onKeyDown={toggleDrawer(false)}
           >
             <Toolbar />
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', p: 2, mb: 3 }}>
-              {userAvatar ? (
-                <Avatar src={userAvatar} alt={`${username}'s avatar`} sx={{ width: 80, height: 80, mb: 1, border: '3px solid', borderColor: 'primary.main' }} />
-              ) : (
-                <Avatar sx={{ width: 80, height: 80, mb: 1, bgcolor: 'primary.main', fontSize: '1.5rem' }}>{username ? username[0].toUpperCase() : '?'}</Avatar>
-              )}
-              <Typography variant="h6" sx={{ color: 'text.primary' }}>{username || 'Guest'}</Typography>
-            </Box>
             <List>
               {menuItems.map((item) => (
                 <ListItem button key={item.text} onClick={() => navigate(item.path)} sx={{ color: 'text.primary' }}>
@@ -198,10 +182,6 @@ const Layout = ({ children, currentUser, onLogout }) => {
                   <ListItemText primary={item.text} />
                 </ListItem>
               ))}
-              <ListItem button onClick={onLogout} sx={{ mt: 2, color: 'text.primary' }}>
-                <ListItemIcon sx={{ color: 'text.primary' }}><ExitToAppIcon /></ListItemIcon>
-                <ListItemText primary="Logout" />
-              </ListItem>
             </List>
           </Box>
         </Drawer>

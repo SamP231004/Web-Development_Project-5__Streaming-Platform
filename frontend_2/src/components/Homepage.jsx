@@ -44,6 +44,7 @@ const Homepage = ({ currentUser }) => {
     try {
       const videoData = await fetchAllVideos(token);
       setVideos(videoData);
+      // console.log('Fetched videos:', videoData);
     } 
     catch (error) {
       setErrorMessage(error.message || 'Failed to load videos.');
@@ -154,6 +155,7 @@ const Homepage = ({ currentUser }) => {
       y: 0,
       opacity: 1,
       scale: 1,
+      width: '50px',
       transition: {
         type: 'spring',
         stiffness: 100,
@@ -161,10 +163,11 @@ const Homepage = ({ currentUser }) => {
       },
     },
     hover: {
-      scale: 1.08,
+      width: '100%',
+      // scale: 1.08,
       boxShadow: '0px 15px 30px rgba(0,0,0,0.6)',
       transition: {
-        duration: 0.2,
+        duration: 0.3,
       },
     },
   };
@@ -180,6 +183,52 @@ const Homepage = ({ currentUser }) => {
     exit: { opacity: 0, y: -10, transition: { duration: 0.2 } },
   };
 
+  const LOCAL_FEATURED_VIDEOS = [
+    {
+      _id: 'local1',
+      title: 'Featured Video 1',
+      videoFile: '/video1.mp4',
+      duration: 120,
+      views: 1000,
+    },
+    {
+      _id: 'local2',
+      title: 'Featured Video 2',
+      videoFile: '/video2.mp4',
+      duration: 180,
+      views: 2000,
+    },
+    {
+      _id: 'local3',
+      title: 'Featured Video 3',
+      videoFile: '/video3.mp4',
+      duration: 240,
+      views: 3000,
+    },
+    {
+      _id: 'local4',
+      title: 'Featured Video 4',
+      videoFile: '/video4.mp4',
+      duration: 240,
+      views: 3000,
+    },
+    {
+      _id: 'local5',
+      title: 'Featured Video 5',
+      videoFile: '/video5.mp4',
+      duration: 240,
+      views: 3000,
+    },
+    {
+      _id: 'local6',
+      title: 'Featured Video 6',
+      videoFile: '/video6.mp4',
+      duration: 240,
+      views: 3000,
+    }
+
+  ];
+
   if (!currentUser) {
     return <LandingPage onLogin={() => navigate('/login')} onRegister={() => navigate('/register')} />;
   }
@@ -188,8 +237,8 @@ const Homepage = ({ currentUser }) => {
     <Box
       sx={{
         p: { xs: 2, md: 3 },
-        bgcolor: 'background.default',
-        minHeight: 'calc(100vh - 64px)',
+        bgcolor: 'transparent',
+        marginTop: '10vh',
       }}
     >
       {isLoading ? (
@@ -225,118 +274,64 @@ const Homepage = ({ currentUser }) => {
             initial="hidden"
             animate="visible"
           >
-            <Grid container spacing={3} sx={{ mb: 5 }}>
-              {videos.slice(0, 6).map((video) => (
-                <Grid item xs={12} sm={6} md={4} lg={3} key={video._id}>
-                  <motion.div
-                    variants={featuredItemVariants}
-                    whileHover="hover"
-                    onMouseEnter={() => handleCardMouseEnter(video)}
-                    onMouseLeave={handleCardMouseLeave}
-                    onClick={() => handleVideoPlay(video)}
-                    style={{
-                      position: 'relative',
-                      cursor: 'pointer',
+          <Grid container spacing={3} sx={{ mb: 5 }}>
+            {LOCAL_FEATURED_VIDEOS.map((video) => (
+              <Grid item xs={12} sm={6} md={4} lg={3} key={video._id}>
+                <motion.div
+                  variants={featuredItemVariants}
+                  whileHover="hover"
+                  initial="visible"
+                  style={{
+                    position: 'relative',
+                    cursor: 'pointer',
+                    borderRadius: '12px',
+                    overflow: 'hidden',
+                    height: '100%',
+                    transformOrigin: 'left center',
+                    border: '1px solid black',
+                    boxShadow: '0 0px 6px rgba(0, 255, 255, 0.8)'
+                  }}
+                >
+                  <Card
+                    sx={{
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      bgcolor: 'background.paper',
                       borderRadius: '12px',
                       overflow: 'hidden',
-                      height: '100%',
-                      transformOrigin: 'center',
+                      position: 'relative',
                     }}
                   >
-                    <Card
+                    <Box
                       sx={{
-                        height: '100%',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        bgcolor: 'background.paper',
-                        borderRadius: '12px',
-                        overflow: 'hidden',
                         position: 'relative',
+                        height: 350,
+                        width: '100%',
+                        overflow: 'hidden',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        bgcolor: 'black',
                       }}
                     >
-                      <Box
-                        sx={{
-                          position: 'relative',
-                          height: 350,
+                      <video
+                        src={video.videoFile}
+                        autoPlay
+                        loop
+                        muted
+                        style={{
                           width: '100%',
-                          overflow: 'hidden',
-                          display: 'flex',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          bgcolor: 'black',
+                          height: '100%',
+                          objectFit: 'cover',
                         }}
-                      >
-                        <AnimatePresence mode="wait">
-                          {hoveredVideo?._id === video._id &&
-                          hoveredVideo.videoFile ? (
-                            <motion.video
-                              key="video-preview"
-                              src={hoveredVideo.videoFile}
-                              autoPlay
-                              loop
-                              muted
-                              style={{
-                                width: '100%',
-                                height: '100%',
-                                objectFit: 'cover',
-                                zIndex: 1,
-                              }}
-                              initial={{ opacity: 0, scale: 0.8 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              exit={{ opacity: 0, scale: 0.8 }}
-                              transition={{ duration: 0.3 }}
-                            />
-                          ) : (
-                            <motion.div
-                              key="thumbnail-with-overlay"
-                              initial="visible"
-                              animate="visible"
-                              exit="exit"
-                              variants={overlayVariants}
-                              style={{
-                                width: '100%',
-                                height: '100%',
-                                position: 'relative',
-                              }}
-                            >
-                              <CardMedia
-                                component="img"
-                                image={video.thumbnail}
-                                alt={`${video.title} Thumbnail`}
-                                sx={{
-                                  height: '100%',
-                                  width: '100%',
-                                  objectFit: 'cover',
-                                  position: 'absolute',
-                                  top: 0,
-                                  left: 0,
-                                  zIndex: 0,
-                                }}
-                              />
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </Box>
-
-                      <CardContent
-                        sx={{
-                          position: 'relative',
-                          zIndex: 3,
-                          p: 1.5,
-                          flexGrow: 1,
-                          display: 'flex',
-                          flexDirection: 'column',
-                          justifyContent: 'flex-end',
-                          height: '0%',
-                        }}
-                      >
-                        {/* Content for featured video cards goes here if needed */}
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                </Grid>
-              ))}
-            </Grid>
+                      />
+                    </Box>
+                  </Card>
+                </motion.div>
+              </Grid>
+            ))}
+          </Grid>
           </motion.div>
 
           {/* Separator line */}
@@ -376,13 +371,14 @@ const Homepage = ({ currentUser }) => {
                   >
                     <Card
                       sx={{
-                        bgcolor: 'background.paper',
+                        bgcolor: 'rgba(0, 0, 0, 0.2)',
                         borderRadius: '12px',
                         display: 'flex',
                         flexDirection: 'column',
                         height: '100%',
                         position: 'relative',
                         minHeight: '400px',
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
                       }}
                     >
                       <Box
@@ -423,7 +419,7 @@ const Homepage = ({ currentUser }) => {
                                 position: 'absolute',
                                 bottom: 8,
                                 right: 8,
-                                bgcolor: 'rgba(0,0,0,0.7)',
+                                // bgcolor: 'rgba(0,0,0)',
                                 color: 'white',
                                 padding: '4px 8px',
                                 borderRadius: '4px',
@@ -490,7 +486,7 @@ const Homepage = ({ currentUser }) => {
                                 display: '-webkit-box',
                                 WebkitLineClamp: 2,
                                 WebkitBoxOrient: 'vertical',
-                                minHeight: '48px',
+                                minHeight: '25px',
                                 maxHeight: '48px',
                                 fontWeight: 'medium',
                                 mr: 1,
@@ -503,7 +499,6 @@ const Homepage = ({ currentUser }) => {
                             currentUser._id !== video.ownerDetails._id ? (
                               <Box sx={{ flexShrink: 0, ml: 'auto' }}>
                                 {' '}
-                                {/* Removed minWidth as it's now handled by the button itself */}
                                 <ToggleSubscriptionButton
                                   channelId={video.ownerDetails._id}
                                 />
@@ -534,7 +529,7 @@ const Homepage = ({ currentUser }) => {
                                 size="small"
                                 sx={{
                                   mt: 0.5,
-                                  bgcolor: 'secondary.light',
+                                  bgcolor: 'transparent',
                                   color: 'text.secondary',
                                   cursor: 'default',
                                 }}
