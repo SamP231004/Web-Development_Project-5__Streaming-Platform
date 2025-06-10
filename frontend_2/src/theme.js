@@ -39,7 +39,11 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: '"Inter", "Roboto", "sans-serif"',
+    fontFamily: '"Audiowide"',
+    root: { 
+      fontSize: '1.75rem',
+      fontWeight: '900',
+    },
     h1: {
       fontSize: '4.5rem',
       fontWeight: 900,
@@ -99,9 +103,22 @@ const theme = createTheme({
     MuiCssBaseline: {
       styleOverrides: {
         '.css-rf1rdx': {
-          // padding: '1vh !important',
           backgroundColor: 'transparent !important',
+          // backgroundColor: 'red !important',
+          padding: '0 !important',
+          margin: '0 !important',
+          height: '100vh !important',
+          width: '100vw !important',
         },
+        '.css-1aoblgv': {
+          backgroundColor: 'transparent !important',
+          padding: '0 !important',
+          margin: '0 !important',
+        },
+        '.css-145zdea' : {          
+          backgroundColor: 'transparent !important',
+          margin: '0 !important',
+        }
       }
     },
     MuiButton: {

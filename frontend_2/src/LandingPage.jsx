@@ -28,11 +28,8 @@ const RootContainer = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'center',
     perspective: '1000px',
-    // background: 'red',
     height: '100%',
     width: '100%',
-    marginTop: '3vh',
-    padding : 0,
     backgroundColor: 'transparent', 
     color: theme.palette.text.primary,
     fontFamily: theme.typography.fontFamily,
@@ -50,15 +47,15 @@ const RootContainer = styled(Box)(({ theme }) => ({
 }));
 
 const ContentOverlay = styled(Box)(({ theme }) => ({
-    // backgroundColor: 'red',
+    top: '7vh',
     display: 'block',
     position: 'relative',
     zIndex: 10,
     textAlign: 'center',
     background: 'rgba(0, 0, 0, 0.75)',
     padding: '50px 70px',
-    borderRadius: '16px',
-    boxShadow: '0 0 40px rgba(0, 255, 255, 0.8)',
+    borderRadius: '25px',
+    boxShadow: '0 0 25px rgba(0, 255, 255, 0.8)',
     backdropFilter: 'blur(8px)',
     maxWidth: '900px',
     margin: '20px',
@@ -72,30 +69,11 @@ const ContentOverlay = styled(Box)(({ theme }) => ({
     },
 }));
 
-const Title = styled(Typography)(({ theme }) => ({
-    fontFamily: 'Orbitron, sans-serif',
-    fontSize: '4.5em', // Larger title
-    marginBottom: '10px', // Less space to bring tagline closer
-    color: '#00ffff', // Brighter cyan
-    textShadow: '0 0 15px rgba(0, 255, 255, 1), 0 0 25px rgba(0, 255, 255, 0.7)', // Enhanced text shadow
-
-    [theme.breakpoints.down('lg')]: {
-        fontSize: '3.5em',
-    },
-    [theme.breakpoints.down('md')]: {
-        fontSize: '2.8em',
-    },
-    [theme.breakpoints.down('sm')]: {
-        fontSize: '2.2em',
-        marginBottom: '10px',
-    },
-}));
-
 const Tagline = styled(Typography)(({ theme }) => ({
-    fontFamily: 'Roboto, sans-serif', // A more readable font for tagline
-    fontSize: '1.6em',
-    color: '#aaffff', // Lighter cyan for contrast
-    marginBottom: '30px', // Space between tagline and description
+    // fontFamily: 'Roboto, sans-serif', 
+    fontSize: '2.2em',
+    color: '#aaffff',
+    marginBottom: '30px',
     letterSpacing: '1px',
     textShadow: '0 0 5px rgba(0, 255, 255, 0.5)',
 
@@ -148,7 +126,8 @@ const ButtonContainer = styled(Box)(({ theme }) => ({
 const CtaButton = styled(Button)(({ theme }) => ({
     backgroundColor: '#ff4500',
     color: theme.palette.common.white,
-    padding: '18px 35px',
+    padding: '5px 10px',
+    height: 'fit-content',
     border: 'none',
     borderRadius: '8px',
     fontSize: '1.2em',
@@ -228,7 +207,7 @@ const VideoItem = styled(Box)(({ theme }) => ({
     animationFillMode: 'forwards',
 }));
 
-const LandingPage = ({ onGetStarted, onLogin, onRegister }) => {
+const LandingPage = ({ onLogin, onRegister }) => {
     return (
         <RootContainer>
             <VideoAnimationWrapper>
@@ -240,17 +219,13 @@ const LandingPage = ({ onGetStarted, onLogin, onRegister }) => {
                 <VideoItem><video src="/video6.mp4" autoPlay loop muted playsInline></video></VideoItem>
             </VideoAnimationWrapper>
             <ContentOverlay>
-                <Title variant="h1">Slithy Videos</Title>
-                <Tagline variant="h2">Your Gateway to Immersive Visual Experiences</Tagline>
+                <Tagline variant="h1">StreamingPlatform: <br /> Where Every Frame Tells a Story</Tagline>
                 <Description variant="body1">
-                    Experience an immersive stream of curated content moving right through your screen. Dive into
-                    entertainment like never before with Slithy! Discover captivating videos, breathtaking
-                    visuals, and stories that move you.
+                    Stream your favorite series, films, and documentaries. Unmatched visual and audio quality, right at your fingertips.
                 </Description>
                 <ButtonContainer>
-                    <CtaButton onClick={onGetStarted}>Get Started</CtaButton>
-                    <SecondaryButton onClick={onLogin}>Login</SecondaryButton>
-                    <SecondaryButton onClick={onRegister}>Register</SecondaryButton>
+                    <CtaButton onClick={onLogin}>Login</CtaButton>
+                    <SecondaryButton onClick={onRegister}>Register Now</SecondaryButton>
                 </ButtonContainer>
             </ContentOverlay>
         </RootContainer>

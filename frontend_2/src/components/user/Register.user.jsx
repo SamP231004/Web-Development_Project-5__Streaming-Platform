@@ -85,9 +85,8 @@ const Register = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        minHeight: 'calc(100vh - 64px)',
-        bgcolor: 'background.default',
-        py: 4,
+        height: '100vh',
+        bgcolor: 'transparent',
       }}
     >
       <motion.div
@@ -99,11 +98,20 @@ const Register = () => {
           elevation={6}
           sx={{
             p: 4,
+            overflow: 'scroll',
             borderRadius: '12px',
             maxWidth: '500px',
+            maxHeight: '90vh',
+            boxShadow: '0 0 25px rgba(0, 255, 255, 0.8)',
+            backdropFilter: 'blur(8px)',
             width: '100%',
-            bgcolor: 'background.paper',
-            mx: 2,
+            bgcolor: 'rgba(0, 0, 0, 0.75)',
+            '&::-webkit-scrollbar': {
+              width: '0px',
+              height: '0px',
+            },
+            scrollbarWidth: 'none',
+            '-ms-overflow-style': 'none',
           }}
         >
           <Typography

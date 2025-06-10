@@ -62,7 +62,7 @@ const Layout = ({ children, currentUser, onLogout }) => {
               style={{ height: '40px', marginRight: '10px', filter: 'invert(1)' }}
               whileHover={{ rotate: 5 }}
             />
-            <Typography variant="h6" component="div" sx={{ color: 'text.primary' }}>
+            <Typography variant="root" component="div" sx={{ color: 'text.primary', letterSpacing: '1px' }}>
               StreamingPlatform
             </Typography>
           </Box>

@@ -56,8 +56,8 @@ const Login = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        minHeight: 'calc(100vh - 64px)',
-        bgcolor: 'background.default',
+        height: '100vh',
+        bgcolor: 'transparent',
       }}
     >
       <motion.div
@@ -72,7 +72,9 @@ const Login = () => {
             borderRadius: '12px',
             maxWidth: '400px',
             width: '100%',
-            bgcolor: 'background.paper',
+            bgcolor: 'rgba(0, 0, 0, 0.75)',
+            boxShadow: '0 0 25px rgba(0, 255, 255, 0.8)',
+            backdropFilter: 'blur(8px)',
           }}
         >
           <Typography

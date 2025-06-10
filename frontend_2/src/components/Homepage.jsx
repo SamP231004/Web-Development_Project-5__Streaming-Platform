@@ -181,7 +181,7 @@ const Homepage = ({ currentUser }) => {
   };
 
   if (!currentUser) {
-    return <LandingPage onGetStarted={() => navigate('/login')} />;
+    return <LandingPage onLogin={() => navigate('/login')} onRegister={() => navigate('/register')} />;
   }
 
   return (
