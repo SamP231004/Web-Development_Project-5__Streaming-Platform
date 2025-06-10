@@ -56,7 +56,6 @@ const PlaylistDetails = ({ playlist, onRemoveVideo }) => {
         mt: 4,
         bgcolor: 'rgba(0, 0, 0, 0.5)',
         borderRadius: '16px',
-        boxShadow: 6,
         p: { xs: 2, md: 3 },
         border: '1px solid rgb(255, 255, 255)',
         boxShadow: '0px 0px 10px rgb(255, 255, 255)',

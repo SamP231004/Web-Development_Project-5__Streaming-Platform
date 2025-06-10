@@ -640,14 +640,32 @@ const Homepage = ({ currentUser }) => {
               top: '50%',
               left: '50%',
               transform: 'translate(-50%, -50%)',
-              width: { xs: '95%', md: '90%' },
-              maxWidth: '900px',
-              bgcolor: 'background.paper',
-              borderRadius: '12px',
-              boxShadow: 24,
-              p: { xs: 2, md: 4 },
+              width: { xs: '95%', sm: '90%', md: '85%' },
+              maxWidth: '1000px',
+              bgcolor: 'rgba(0, 0, 0, 0.95)',
+              borderRadius: '16px',
+              border: '1px solid rgb(0,0,0)',
+              boxShadow: '0 0 40px rgba(0, 255, 255, 0.2)',
+              p: { xs: 2, sm: 3, md: 4 },
               maxHeight: '90vh',
               overflowY: 'auto',
+              '&::-webkit-scrollbar': {
+                width: '8px',
+                background: 'transparent',
+              },
+              '&::-webkit-scrollbar-track': {
+                background: 'transparent',
+                borderRadius: '8px',
+              },
+              '&::-webkit-scrollbar-thumb': {
+                background: 'rgba(0, 255, 255, 0.2)',
+                borderRadius: '8px',
+                '&:hover': {
+                  background: 'rgba(0, 255, 255, 0.3)',
+                },
+              },
+              scrollbarWidth: 'thin',
+              scrollbarColor: 'rgba(0, 255, 255, 0.2) transparent',
             }}
           >
             <Box
@@ -655,37 +673,73 @@ const Homepage = ({ currentUser }) => {
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                mb: 2,
+                mb: 3,
+                borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+                pb: 2,
               }}
             >
               <Typography
                 id="video-player-modal-title"
                 variant="h5"
                 component="h2"
-                sx={{ color: 'text.primary', flexGrow: 1 }}
+                sx={{
+                  color: 'text.primary',
+                  flexGrow: 1,
+                  fontSize: { xs: '1.2rem', sm: '1.5rem' },
+                  fontWeight: 'bold'
+                }}
               >
                 {selectedVideo?.title}
               </Typography>
-              <IconButton onClick={handleCloseVideoPlayer} color="inherit">
-                <CloseIcon sx={{ color: 'text.secondary' }} />
+              <IconButton
+                onClick={handleCloseVideoPlayer}
+                sx={{
+                  color: 'text.secondary',
+                  '&:hover': {
+                    color: 'primary.main',
+                    transform: 'scale(1.1)',
+                    transition: 'all 0.2s ease-in-out',
+                  },
+                }}
+              >
+                <CloseIcon />
               </IconButton>
             </Box>
+
             {selectedVideo?.videoFile && (
-              <video
-                controls
-                style={{ width: '100%', borderRadius: '8px', marginBottom: '20px' }}
+              <Box
+                sx={{
+                  position: 'relative',
+                  width: '100%',
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  mb: 3,
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
+                }}
               >
-                <source src={selectedVideo.videoFile} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
+                <video
+                  controls
+                  style={{
+                    width: '100%',
+                    display: 'block',
+                    backgroundColor: '#000',
+                  }}
+                >
+                  <source src={selectedVideo.videoFile} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              </Box>
             )}
+
             <Box
               sx={{
-                mb: 2,
+                mb: 3,
                 display: 'flex',
                 alignItems: 'center',
                 flexWrap: 'wrap',
                 gap: 2,
+                borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+                pb: 3,
               }}
             >
               <VideoLike videoId={selectedVideo?._id} accessToken={token} />
@@ -701,37 +755,69 @@ const Homepage = ({ currentUser }) => {
                   variant="outlined"
                   sx={{
                     cursor: 'default',
-                    bgcolor: 'background.default',
+                    bgcolor: 'transparent',
+                    padding: '6px 12px',
                     color: 'text.primary',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    '&:hover': {
+                      bgcolor: 'rgba(255, 255, 255, 0.1)',
+                    },
                   }}
                 />
               )}
               {selectedVideo?.ownerDetails?._id &&
-              currentUser._id !== selectedVideo.ownerDetails._id && (
-                <ToggleSubscriptionButton
-                  channelId={selectedVideo.ownerDetails._id}
-                />
+                currentUser._id !== selectedVideo.ownerDetails._id && (
+                  <ToggleSubscriptionButton
+                    channelId={selectedVideo.ownerDetails._id}
+                  />
+                )}
+            </Box>
+
+            <Box sx={{ mb: 4 }}>
+              <Typography
+                variant="subtitle1"
+                sx={{
+                  color: 'primary.main',
+                  mb: 2,
+                  fontWeight: 'bold',
+                  fontSize: '1.1rem'
+                }}
+              >
+                Video Description
+              </Typography>
+              <Typography
+                variant="body1"
+                sx={{
+                  whiteSpace: 'pre-wrap',
+                  color: 'text.primary',
+                  bgcolor: 'rgba(255, 255, 255, 0.05)',
+                  p: 2,
+                  borderRadius: '8px',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                }}
+              >
+                {selectedVideo?.description}
+              </Typography>
+            </Box>
+
+            <Box sx={{ mt: 4 }}>
+              <Typography
+                variant="subtitle1"
+                sx={{
+                  color: 'primary.main',
+                  mb: 2,
+                  fontWeight: 'bold',
+                  fontSize: '1.1rem'
+                }}
+              >
+                Comments
+              </Typography>
+              {selectedVideo?._id && (
+                <Box sx={{ mt: 2 }}>
+                  <GetVideoComments videoId={selectedVideo._id} />
+                </Box>
               )}
             </Box>
-            <Typography
-              variant="subtitle1"
-              sx={{ color: 'text.secondary', mb: 1, fontWeight: 'bold' }}
-            >
-              Video Description :
-            </Typography>
-            <Typography
-              variant="body1"
-              sx={{ whiteSpace: 'pre-wrap', mb: 3, color: 'text.primary' }}
-            >
-              {selectedVideo?.description}
-            </Typography>
-            <Typography
-              variant="subtitle1"
-              sx={{ color: 'text.secondary', mb: 1, fontWeight: 'bold' }}
-            >
-              Comments :
-            </Typography>
-            {selectedVideo?._id && <GetVideoComments videoId={selectedVideo._id} />}
           </Box>
         </Fade>
       </Modal>

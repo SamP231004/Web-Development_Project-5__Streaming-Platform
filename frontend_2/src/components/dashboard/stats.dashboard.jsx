@@ -378,7 +378,7 @@ const Dashboard = () => {
 
       {/* Video Player Dialog (Modal) */}
       <Dialog
-        open={!!selectedVideo} // Open if selectedVideo is not null
+        open={!!selectedVideo}
         onClose={handleCloseVideoPlayer}
         maxWidth="md"
         fullWidth
@@ -390,63 +390,119 @@ const Dashboard = () => {
           transition: { duration: 0.3 },
           sx: {
             borderRadius: '16px',
-            bgcolor: 'background.paper',
+            bgcolor: 'rgba(0, 0, 0, 0.85)',
             border: '1px solid rgba(255, 255, 255, 0.1)',
-            boxShadow: 8,
+            boxShadow: '0 0 40px rgba(0, 255, 255, 0.2)',
+            overflowY: 'auto',
+            '&::-webkit-scrollbar': {
+              width: '8px',
+              background: 'transparent',
+            },
+            '&::-webkit-scrollbar-track': {
+              background: 'transparent',
+              borderRadius: '8px',
+            },
+            '&::-webkit-scrollbar-thumb': {
+              background: 'rgba(0, 255, 255, 0.2)',
+              borderRadius: '8px',
+              '&:hover': {
+                background: 'rgba(0, 255, 255, 0.3)',
+              },
+            },
+            scrollbarWidth: 'thin',
+            scrollbarColor: 'rgba(0, 255, 255, 0.2) transparent',
           }
         }}
       >
         {selectedVideo && (
           <>
-            <DialogTitle sx={{ m: 0, p: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
-              <Typography variant="h5" component="h2" sx={{ color: 'primary.main', fontWeight: 'bold' }}>
+            <DialogTitle
+              sx={{
+                m: 0,
+                p: 3,
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+                bgcolor: 'rgba(0, 0, 0, 0.4)'
+              }}
+            >
+              <Typography
+                variant="h5"
+                component="h2"
+                sx={{
+                  color: 'primary.main',
+                  fontWeight: 'bold',
+                  fontSize: { xs: '1.2rem', sm: '1.5rem' }
+                }}
+              >
                 {selectedVideo.title}
               </Typography>
               <IconButton
                 aria-label="close"
                 onClick={handleCloseVideoPlayer}
                 sx={{
-                  color: (theme) => theme.palette.grey[500],
+                  color: 'text.secondary',
                   '&:hover': {
-                    bgcolor: 'rgba(255, 255, 255, 0.1)',
+                    color: 'primary.main',
+                    transform: 'scale(1.1)',
+                    transition: 'all 0.2s ease-in-out',
                   },
                 }}
               >
                 <CloseIcon />
               </IconButton>
             </DialogTitle>
-            <DialogContent dividers sx={{ p: 0 }}>
-              <Box sx={{ 
-                width: '100%', 
-                aspectRatio: '16/9', 
-                bgcolor: 'black', 
-                display: 'flex', 
-                justifyContent: 'center', 
-                alignItems: 'center',
-                minWidth: { xs: '90vw', sm: '400px', md: '500px' }, // Set minimum width
-                maxWidth: '750px', // Set maximum width
-                minHeight: { xs: '200px', sm: '250px', md: '300px' }, // Set minimum height
-                maxHeight: '450px', // Set maximum height
-                mx: 'auto', // Center the video box horizontally
+
+            <DialogContent sx={{ p: 0, bgcolor: 'rgba(0, 0, 0, 0.4)' }}>
+              <Box sx={{
+                width: '100%',
+                position: 'relative',
+                aspectRatio: '16/9',
+                bgcolor: 'black',
+                overflow: 'hidden',
+                borderRadius: '8px',
+                mb: 3,
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
+                mx: 'auto',
+                maxWidth: '900px'
               }}>
                 <video
                   controls
                   src={selectedVideo.videoFile}
-                  style={{ 
-                    width: '100%', 
-                    height: '100%', 
-                    objectFit: 'contain', 
-                    borderRadius: '0 0 16px 16px' 
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
                   }}
                 >
                   Your browser does not support the video tag.
                 </video>
               </Box>
+
               <Box sx={{ p: { xs: 2, sm: 3 } }}>
-                <Typography variant="h6" sx={{ color: 'text.primary', mb: 1, fontWeight: 'medium' }}>
-                  Description:
+                <Typography
+                  variant="h6"
+                  sx={{
+                    color: 'primary.main',
+                    mb: 2,
+                    fontWeight: 'bold',
+                    fontSize: '1.1rem'
+                  }}
+                >
+                  Video Description
                 </Typography>
-                <Typography variant="body1" color="text.secondary" sx={{ whiteSpace: 'pre-wrap' }}>
+                <Typography
+                  variant="body1"
+                  sx={{
+                    color: 'text.primary',
+                    whiteSpace: 'pre-wrap',
+                    bgcolor: 'rgba(255, 255, 255, 0.05)',
+                    p: 2,
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                  }}
+                >
                   {selectedVideo.description}
                 </Typography>
               </Box>

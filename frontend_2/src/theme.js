@@ -100,6 +100,20 @@ const theme = createTheme({
     },
   },
   components: {
+    MuiDrawer: {
+      styleOverrides: {
+        root: {
+          '& .MuiDrawer-paper': {
+            backgroundColor: 'rgba(0, 0, 0, 0.7) !important',
+            height: 'fit-content',
+            margin: '25vh 0.3vw',
+            backdropFilter: 'blur(10px)',
+            border: '2px solid white',
+            // borderRight: '1px solid rgba(255, 255, 255, 0.1)',
+          },
+        },
+      },
+    },
     MuiCssBaseline: {
       styleOverrides: {
         '.css-rf1rdx': {
@@ -125,7 +139,47 @@ const theme = createTheme({
           backgroundColor: 'rgba(0, 0, 0, 0.5) !important',
           border: '2px solid white'
         },
-
+        '.css-1ygil4i-MuiToolbar-root': {
+          '@media (min-width: 600px)': {
+            minHeight: '64px',
+            padding: '0 24px',
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center'
+          },
+          '@media (max-width: 599px)': {
+            minHeight: '56px',
+            maxHeight: '80vh',
+            maxWidth: '95vw',
+            overflow: 'auto',
+            backgroundColor: 'rgba(0, 0, 0, 0.85)',
+            fontSize: '0.6rem',
+            padding: '8px 16px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '8px',
+            '& .MuiBox-root': {
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '8px',
+              '& .MuiTypography-root': {
+                textAlign: 'center',
+                marginRight: '0',
+              },
+              '& .MuiButton-root': {
+                marginLeft: '0',
+              }
+            },
+            '&::-webkit-scrollbar': {
+              width: '4px',
+            },
+            '&::-webkit-scrollbar-thumb': {
+              backgroundColor: 'rgba(255, 255, 255, 0.2)',
+              borderRadius: '4px',
+            }
+          }
+        },
       }
     },
     MuiButton: {
@@ -296,9 +350,17 @@ const theme = createTheme({
     MuiGrid: {
       styleOverrides: {
         root: {
-          '--Grid-columnSpacing': '45px',
+          '@media (min-width: 600px)': {
+            '--Grid-columnSpacing': '45px',
+          },
+          '@media (max-width: 599px)': {
+            '--Grid-columnSpacing': '16px',
+          },
           '&.MuiGrid-container': {
-            // justifyContent: 'center',
+            justifyContent: 'flex-start',
+            '@media (max-width: 599px)': {
+              justifyContent: 'center',
+            }
           }
         },
       },
