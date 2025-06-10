@@ -274,7 +274,7 @@ const Homepage = ({ currentUser }) => {
             initial="hidden"
             animate="visible"
           >
-          <Grid container spacing={3} sx={{ mb: 5 }}>
+          <Grid container spacing={3} sx={{ mb: 5, ml: 3 }}>
             {LOCAL_FEATURED_VIDEOS.map((video) => (
               <Grid item xs={12} sm={6} md={4} lg={3} key={video._id}>
                 <motion.div
@@ -289,7 +289,7 @@ const Homepage = ({ currentUser }) => {
                     height: '100%',
                     transformOrigin: 'left center',
                     border: '1px solid black',
-                    boxShadow: '0 0px 6px rgba(0, 255, 255, 0.8)'
+                    boxShadow: '0 0px 6px rgba(0, 255, 255, 0.8)',
                   }}
                 >
                   <Card
@@ -355,7 +355,7 @@ const Homepage = ({ currentUser }) => {
             initial="hidden"
             animate="visible"
           >
-            <Grid container spacing={4}>
+            <Grid container spacing={4} sx={{justifyContent: 'center !important'}}>
               {videos.map((video) => (
                 <Grid item xs={12} sm={6} md={4} lg={3} key={video._id}>
                   <motion.div

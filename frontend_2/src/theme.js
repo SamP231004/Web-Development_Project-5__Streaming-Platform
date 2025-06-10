@@ -298,7 +298,7 @@ const theme = createTheme({
         root: {
           '--Grid-columnSpacing': '45px',
           '&.MuiGrid-container': {
-            justifyContent: 'center',
+            // justifyContent: 'center',
           }
         },
       },
