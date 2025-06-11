@@ -109,7 +109,6 @@ const theme = createTheme({
             margin: '25vh 0.3vw',
             backdropFilter: 'blur(10px)',
             border: '2px solid white',
-            // borderRight: '1px solid rgba(255, 255, 255, 0.1)',
           },
         },
       },
@@ -137,6 +136,11 @@ const theme = createTheme({
           margin: '25vh 0.3vw',
           backgroundColor: 'rgba(0, 0, 0, 0.5) !important',
           border: '2px solid white'
+        },
+        '.css-13x7i4e-MuiGrid-root': {
+          '@media (max-width: 599px)': {
+            margin: '0 !important'
+          }
         },
         '[class*="MuiToolbar-root"]': {
           '@media (max-width: 599px)': {
@@ -188,7 +192,12 @@ const theme = createTheme({
             left: '5vw !important',
             zIndex: '1200 !important'
           }
-        }
+        },
+        '.MuiBox-root.css-1obk09a': {
+          '@media (max-width: 599px)': {
+            display: 'none !important'
+          }
+        },
       }
     },
     MuiButton: {

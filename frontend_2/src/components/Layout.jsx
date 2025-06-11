@@ -84,7 +84,23 @@ const Layout = ({ children, currentUser, onLogout }) => {
             </Typography>
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <div style={{ display: 'flex', alignItems: 'center',  position: 'fixed', flexDirection: 'column', right: '-1vw', top: '80vh', padding: '0px', zIndex: 1000 }}>
+            <Box
+              sx={(theme) => ({
+                alignItems: 'center',
+                position: 'fixed',
+                flexDirection: 'column',
+                right: '-1vw',
+                top: '80vh',
+                padding: 0,
+                zIndex: 1000,
+                backdropFilter: 'blur(10px)',
+                borderRadius: '12px',
+                display: 'flex',
+                '@media (max-width: 599px)': {
+                  display: 'none'
+                }
+              })}
+            >
               <motion.a href="https://samp231004.github.io/Portfolio/" target='_blank' rel="noreferrer" whileHover={{ scale: 1.2 }}>
                 <IconButton color="inherit" sx={{ mx: 1 }}>
                   <img src={image_2} alt="Portfolio" style={{ height: '24px', filter: 'invert(1)' }} />
@@ -100,7 +116,7 @@ const Layout = ({ children, currentUser, onLogout }) => {
                   <img src={image_4} alt="GitHub" style={{ height: '24px', filter: 'invert(1)' }} />
                 </IconButton>
               </motion.a>
-            </div>
+            </Box>
             {currentUser ? (
               <>
                 <Avatar src={userAvatar} alt={username} sx={{ ml: 2, mr: 1, border: '2px solid', borderColor: 'primary.main' }} />
