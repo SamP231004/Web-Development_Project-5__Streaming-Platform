@@ -137,7 +137,7 @@ const theme = createTheme({
           backgroundColor: 'rgba(0, 0, 0, 0.5) !important',
           border: '2px solid white'
         },
-        '.css-13x7i4e-MuiGrid-root.MuiGrid-container': {
+        '.css-y2h47r.MuiGrid-container': {
           '@media (max-width: 599px)': {
             margin: '0 !important'
           }
