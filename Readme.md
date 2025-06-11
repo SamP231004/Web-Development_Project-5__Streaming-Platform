@@ -61,60 +61,61 @@ StreamingPlatform leverages a powerful combination of technologies to deliver a 
 
 Witness the user interface and key features of StreamingPlatform across its versions.
 
-### Version 2 Screenshots ✨
+### <u>Version 2 ✨</u>
 
-**Redefined Landing Page:**
+### 🎬 Redefined Landing Page: 
 ![StreamingPlatform V2 Landing Page](ScreenShots/SSV2_1.png)
-*The sleek, redesigned landing page with improved navigation and aesthetics.*
+*✨ The sleek, redesigned landing page with improved navigation and aesthetics.*
 
-**Home Page:**
-![StreamingPlatform V2 Home Page](ScreenShots/SSV2_2.png)
-*The main home feed showcasing various video content.*
+### 🏠 Home Page:  
+![StreamingPlatform V2 Home Page](ScreenShots/SSV2_2.png)  
+*🎥 The main home feed showcasing various video content.*
 
-**My Subscriptions Page:**
-![StreamingPlatform V2 My Subscriptions Page](ScreenShots/SSV2_3.png)
-*View and manage your channel subscriptions effortlessly.*
+### 📺 My Subscriptions Page:  
+![StreamingPlatform V2 My Subscriptions Page](ScreenShots/SSV2_3.png)  
+*🔔 View and manage your channel subscriptions effortlessly.*
 
-**My Playlists Page:**
-![StreamingPlatform V2 My Playlists Page](ScreenShots/SSV2_4.png)
-*Organize and access your personalized video collections.*
+### 🎵 My Playlists Page:  
+![StreamingPlatform V2 My Playlists Page](ScreenShots/SSV2_4.png)  
+*📂 Organize and access your personalized video collections.*
 
-**Upload Video Page:**
-![StreamingPlatform V2 Upload Video Page](ScreenShots/SSV2_5.png)
-*The intuitive interface for uploading new video content to your channel.*
+### 📤 Upload Video Page:  
+![StreamingPlatform V2 Upload Video Page](ScreenShots/SSV2_5.png)  
+*🎬 The intuitive interface for uploading new video content to your channel.*
 
-**Dashboard:**
-![StreamingPlatform V2 Dashboard](ScreenShots/SSV2_6.png)
-*A comprehensive overview of your channel's performance and video analytics.*
+### 📊 Dashboard:
+![StreamingPlatform V2 Dashboard](ScreenShots/SSV2_6.png)  
+*📈 A comprehensive overview of your channel's performance and video analytics.*
 
-**Mobile View:**
+### 📱 Mobile View:  
 <p align="center">
   <img src="ScreenShots/SSV2_7.png" alt="StreamingPlatform V2 Mobile View 1" width="250" style="padding: 5px;">
   <img src="ScreenShots/SSV2_8.png" alt="StreamingPlatform V2 Mobile View 2" width="250" style="padding: 5px;">
   <img src="ScreenShots/SSV2_9.png" alt="StreamingPlatform V2 Mobile View 3" width="250" style="padding: 5px;">
-</p>
-*Optimized for mobile devices, ensuring a seamless viewing and interaction experience on the go.*
+</p>  
+*📱 Optimized for mobile devices, ensuring a seamless viewing and interaction experience on the go.*
 
-### Version 1 Screenshots 🖼️
 
-**Home Page:**
-![StreamingPlatform V1 Home Page](ScreenShots/SS_1.png)
-*A glimpse of the initial homepage, featuring various video listings.*
+### <u>Version 1 🖼️</u>
 
-**Liked Videos Page:**
-![StreamingPlatform V1 Liked Videos Page](ScreenShots/SS_2.png)
-*Access all the videos you've liked from a dedicated section.*
+### 🏠 Home Page  
+![StreamingPlatform V1 Home Page](ScreenShots/SS_1.png)  
+*🎞️ A glimpse of the initial homepage, featuring various video listings.*
 
-**Upload Video Page:**
-![StreamingPlatform V1 Upload Video Page](ScreenShots/SS_3.png)
-*The interface for securely uploading your video content.*
+### ❤️ Liked Videos Page  
+![StreamingPlatform V1 Liked Videos Page](ScreenShots/SS_2.png)  
+*👍 Access all the videos you've liked from a dedicated section.*
 
-**Dashboard:**
-![StreamingPlatform V1 Dashboard](ScreenShots/SS_4.png)
-*A comprehensive overview of your channel's key statistics.*
+### 📤 Upload Video Page  
+![StreamingPlatform V1 Upload Video Page](ScreenShots/SS_3.png)  
+*🔒 The interface for securely uploading your video content.*
 
-**Mobile View:**
+### 📊 Dashboard  
+![StreamingPlatform V1 Dashboard](ScreenShots/SS_4.png)  
+*📈 A comprehensive overview of your channel's key statistics.*
+
+### 📱 Mobile View  
 <p align="center">
   <img src="ScreenShots/SS_5.png" alt="StreamingPlatform V1 Mobile View" width="250" style="padding: 5px;">
-</p>
-*Optimized for mobile devices, providing a smooth experience wherever you are.*
+</p>  
+*📱 Optimized for mobile devices, providing a smooth experience wherever you are.*
