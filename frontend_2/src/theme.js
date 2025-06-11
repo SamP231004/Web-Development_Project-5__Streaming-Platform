@@ -138,48 +138,55 @@ const theme = createTheme({
           backgroundColor: 'rgba(0, 0, 0, 0.5) !important',
           border: '2px solid white'
         },
-        '.css-1ygil4i-MuiToolbar-root': {
+        '[class*="MuiToolbar-root"]': {
           '@media (max-width: 599px)': {
-            margin: '0 2vw',
-            maxWidth: '95vw',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '8px',
+            margin: '0 2vw !important',
+            maxWidth: '95vw !important',
+            display: 'flex !important',
+            flexDirection: 'column !important',
+            alignItems: 'center !important',
+            gap: '8px !important',
             '& .MuiBox-root': {
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: '8px',
+              display: 'flex !important',
+              flexDirection: 'row !important',
+              alignItems: 'center !important',
+              justifyContent: 'center !important',
+              gap: '8px !important',
+              width: '100% !important',
               '& .MuiTypography-root': {
-                textAlign: 'center',
-                marginRight: '0',
-                fontSize: '0.9rem'
+                textAlign: 'center !important',
+                marginRight: '0 !important',
+                fontSize: '0.9rem !important',
+                order: '1 !important'
               },
               '& .MuiButton-root': {
-                marginLeft: '0',
-                padding: '6px 12px',
-                minWidth: '120px'
+                marginLeft: '0 !important',
+                padding: '6px 12px !important',
+                minWidth: '120px !important',
+                order: '2 !important'
               },
               '& .MuiAvatar-root': {
-                marginLeft: '0',
-                marginRight: '0',
-                marginBottom: '4px'
+                marginLeft: '0 !important',
+                marginRight: '0 !important',
+                marginBottom: '4px !important'
               }
             }
           }
         },
-        '.css-jpngkl-MuiPaper-root-MuiAppBar-root': {
+        '[class*="MuiAppBar-root"]': {
           '@media (max-width: 599px)': {
             margin: '1vw 2vw !important',
-            maxWidth: '95vw',
-            display: 'flex',
+            maxWidth: '95vw !important',
+            display: 'flex !important',
+            backdropFilter: 'blur(10px) !important',
+            backgroundColor: 'rgba(0, 0, 0, 0.7) !important'
           }
         },
-        '.css-zol24j-MuiButtonBase-root-MuiIconButton-root': {
+        '[class*="MuiIconButton-root"]': {
           '@media (max-width: 599px)': {
-            position: 'fixed',
-            left: '5vw',
+            position: 'fixed !important',
+            left: '5vw !important',
+            zIndex: '1200 !important'
           }
         }
       }
