@@ -30,10 +30,10 @@ const RootContainer = styled(Box)(({ theme }) => ({
     perspective: '1000px',
     height: '100%',
     width: '100%',
-    backgroundColor: 'transparent', 
+    backgroundColor: 'transparent',
     color: theme.palette.text.primary,
     fontFamily: theme.typography.fontFamily,
-    overflow: 'hidden', 
+    overflow: 'hidden',
 
     '&::before': {
         content: "''",
@@ -59,7 +59,7 @@ const ContentOverlay = styled(Box)(({ theme }) => ({
     backdropFilter: 'blur(8px)',
     maxWidth: '900px',
     margin: '20px',
-    border: '1px solid rgba(0, 255, 255, 0.4)', 
+    border: '1px solid rgba(0, 255, 255, 0.4)',
     [theme.breakpoints.down('md')]: {
         padding: '30px 40px',
     },
@@ -92,7 +92,7 @@ const Tagline = styled(Typography)(({ theme }) => ({
 const Description = styled(Typography)(({ theme }) => ({
     fontSize: '1.4em',
     lineHeight: 1.8,
-    marginBottom: '50px', 
+    marginBottom: '50px',
     maxWidth: '700px',
     marginLeft: 'auto',
     marginRight: 'auto',
@@ -211,12 +211,12 @@ const LandingPage = ({ onLogin, onRegister }) => {
     return (
         <RootContainer>
             <VideoAnimationWrapper>
-                <VideoItem><video src="/video1.mp4" autoPlay loop muted playsInline></video></VideoItem>
-                <VideoItem><video src="/video2.mp4" autoPlay loop muted playsInline></video></VideoItem>
-                <VideoItem><video src="/video3.mp4" autoPlay loop muted playsInline></video></VideoItem>
-                <VideoItem><video src="/video4.mp4" autoPlay loop muted playsInline></video></VideoItem>
-                <VideoItem><video src="/video5.mp4" autoPlay loop muted playsInline></video></VideoItem>
-                <VideoItem><video src="/video6.mp4" autoPlay loop muted playsInline></video></VideoItem>
+                <VideoItem><video src="https://res.cloudinary.com/duuwv0a2h/video/upload/v1/video1_i7eu0f" autoPlay loop muted playsInline></video></VideoItem>
+                <VideoItem><video src="https://res.cloudinary.com/duuwv0a2h/video/upload/v1/video2_ahitoy" autoPlay loop muted playsInline></video></VideoItem>
+                <VideoItem><video src="https://res.cloudinary.com/duuwv0a2h/video/upload/v1/video3_dmscvt" autoPlay loop muted playsInline></video></VideoItem>
+                <VideoItem><video src="https://res.cloudinary.com/duuwv0a2h/video/upload/v1/video4_ar021k" autoPlay loop muted playsInline></video></VideoItem>
+                <VideoItem><video src="https://res.cloudinary.com/duuwv0a2h/video/upload/v1/video5_sn7rsr" autoPlay loop muted playsInline></video></VideoItem>
+                <VideoItem><video src="https://res.cloudinary.com/duuwv0a2h/video/upload/v1/video6_n3pdrq" autoPlay loop muted playsInline></video></VideoItem>
             </VideoAnimationWrapper>
             <ContentOverlay>
                 <Tagline variant="h1">StreamingPlatform: <br /> Where Every Frame Tells a Story</Tagline>
