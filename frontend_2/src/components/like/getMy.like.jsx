@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { handleWatch } from '../video/handleView.video.jsx';
-import VideoLike from './video.like.jsx'; // Assuming VideoLike is correctly imported
-import GetVideoComments from '../comment/getVideo.comment.jsx'; // Assuming GetVideoComments is in the parent directory of 'comment'
+import VideoLike from './video.like.jsx'; 
+import GetVideoComments from '../comment/getVideo.comment.jsx';
 import ToggleSubscriptionButton from '../subscription/ToggleSubscriptionButton.jsx';
 
 import {

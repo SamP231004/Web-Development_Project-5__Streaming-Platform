@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Box,
-  TextField,
-  Button,
-  Typography,
-  CircularProgress,
-  Alert,
-} from "@mui/material";
+import { Box, TextField, Button, Typography, CircularProgress, Alert } from "@mui/material";
 
 const PlaylistForm = ({ onSubmit, initialData = {} }) => {
   const [formData, setFormData] = useState({
@@ -52,9 +45,11 @@ const PlaylistForm = ({ onSubmit, initialData = {} }) => {
       if (!initialData._id) {
         setFormData({ name: "", description: "" });
       }
-    } catch (err) {
+    } 
+    catch (err) {
       setError(err.message || "Failed to save playlist.");
-    } finally {
+    } 
+    finally {
       setIsSubmitting(false);
     }
   };
@@ -131,7 +126,6 @@ const PlaylistForm = ({ onSubmit, initialData = {} }) => {
         rows={4}
         value={formData.description}
         onChange={handleChange}
-        // Remove disabled prop
         sx={{
           '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
             borderColor: 'rgba(255, 255, 255, 0.2)',

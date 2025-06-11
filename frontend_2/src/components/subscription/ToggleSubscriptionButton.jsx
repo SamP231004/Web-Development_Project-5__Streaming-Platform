@@ -60,7 +60,6 @@ const ToggleSubscriptionButton = ({ channelId }) => {
         }
     };
 
-    // Render nothing if still loading subscription status
     if (isSubscribed === null) return null;
 
     return (

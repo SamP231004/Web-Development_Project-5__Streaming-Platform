@@ -1,25 +1,12 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
 import axios from "axios";
-import {
-  Box,
-  Typography,
-  CircularProgress,
-  Grid,
-  Card,
-  CardContent,
-  Chip,
-  IconButton,
-  Dialog, // For the video player modal
-  DialogTitle,
-  DialogContent,
-  Alert, // Added Alert for error messages
-} from "@mui/material";
+import { Box, Typography, CircularProgress, Grid, Card, CardContent, Chip, IconButton, Dialog,  DialogTitle, DialogContent, Alert } from "@mui/material";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
 import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
 import CloseIcon from '@mui/icons-material/Close';
-import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite'; // Play icon for video cards
+import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
 import { motion, AnimatePresence } from "framer-motion";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
@@ -34,9 +21,8 @@ const Dashboard = () => {
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedVideo, setSelectedVideo] = useState(null); // Controls the video player dialog
+  const [selectedVideo, setSelectedVideo] = useState(null); 
 
-  // Memoize authHeaders to prevent unnecessary re-renders of fetchChannelStats
   const authHeaders = useMemo(() => {
     const token = localStorage.getItem("accessToken");
     return {
@@ -44,7 +30,7 @@ const Dashboard = () => {
         Authorization: `Bearer ${token}`,
       },
     };
-  }, []); // Empty dependency array means it's created once
+  }, []); 
 
   const formatDate = (dateString) => {
     const options = {
@@ -57,7 +43,6 @@ const Dashboard = () => {
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
-  // Use useCallback to memoize the fetch function
   const fetchChannelStatsAndVideos = useCallback(async () => {
     const token = localStorage.getItem("accessToken");
 
@@ -70,33 +55,32 @@ const Dashboard = () => {
 
     try {
       setLoading(true);
-      setError(null); // Clear any previous errors
+      setError(null);
 
-      // Fetch channel stats
       const statsResponse = await axios.get(
         `${API_URL}/api/version_1/dashboard/stats`,
         authHeaders
       );
       setChannelStats(statsResponse.data.data);
 
-      // Fetch user's videos
       const videosResponse = await axios.get(
         `${API_URL}/api/version_1/video/my-videos`,
         authHeaders
       );
       setVideos(videosResponse.data.data);
-    } catch (err) {
+    } 
+    catch (err) {
       console.error("Error fetching data:", err);
       setError(err.response?.data?.message || "Failed to load dashboard data.");
-    } finally {
+    } 
+    finally {
       setLoading(false);
     }
-  }, [authHeaders]); // Dependency on authHeaders (which is stable due to useMemo)
+  }, [authHeaders]); 
 
-  // useEffect to call the memoized fetch function on component mount
   useEffect(() => {
     fetchChannelStatsAndVideos();
-  }, [fetchChannelStatsAndVideos]); // Depend on the memoized function
+  }, [fetchChannelStatsAndVideos]);
 
   const handleWatchNow = (video) => {
     setSelectedVideo(video);
@@ -106,7 +90,6 @@ const Dashboard = () => {
     setSelectedVideo(null);
   };
 
-  // Framer Motion variants for animations
   const cardVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
@@ -126,9 +109,9 @@ const Dashboard = () => {
     <Box
       sx={{
         p: { xs: 2, md: 4 },
-        mt: 8, // Adjust top margin as needed, considering your AppBar
+        mt: 8,
         bgcolor: 'transparent',
-        minHeight: 'calc(100vh - 100px)', // Adjust height based on your layout
+        minHeight: 'calc(100vh - 100px)',
       }}
     >
       <Typography
@@ -166,7 +149,7 @@ const Dashboard = () => {
           </Typography>
           <Grid
             container
-            spacing={2} // Reduced spacing for a tighter look
+            spacing={2}
             justifyContent="center"
             component={motion.div}
             variants={containerVariants}
@@ -175,7 +158,7 @@ const Dashboard = () => {
             sx={{ mb: 6 }}
           >
             {/* Adjusted Grid item sizes for smaller cards */}
-            <Grid item xs={6} sm={4} md={2.5}> {/* Smaller column width */}
+            <Grid item xs={6} sm={4} md={2.5}>
               <Card
                 component={motion.div}
                 variants={cardVariants}
@@ -183,19 +166,19 @@ const Dashboard = () => {
                 sx={{
                   bgcolor: 'background.paper',
                   borderRadius: '12px',
-                  p: 1.5, // Slightly less padding
+                  p: 1.5, 
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
-                  gap: 0.5, // Reduced gap
+                  gap: 0.5, 
                   border: '1px solid rgba(255, 255, 255, 0.1)',
                 }}
               >
-                <SubscriptionsIcon sx={{ fontSize: 35, color: 'info.main' }} /> {/* Smaller icon size */}
+                <SubscriptionsIcon sx={{ fontSize: 35, color: 'info.main' }} /> 
                 <Typography variant="h6" sx={{ color: 'text.primary', fontWeight: 'bold' }}>
                   {channelStats.totalSubscribers}
                 </Typography>
-                <Typography variant="caption" color="text.secondary" align="center"> {/* Smaller text for subtitle */}
+                <Typography variant="caption" color="text.secondary" align="center">
                   Subscribers
                 </Typography>
               </Card>
@@ -300,7 +283,7 @@ const Dashboard = () => {
                     sx={{
                       bgcolor: 'rgba(0,0,0, 0.4)',
                       borderRadius: '12px',
-                      overflow: 'hidden', // Ensures video/image corners are rounded
+                      overflow: 'hidden', 
                       cursor: 'pointer',
                       transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
                       '&:hover': {
@@ -311,7 +294,7 @@ const Dashboard = () => {
                     }}
                     onClick={() => handleWatchNow(video)}
                   >
-                    <Box sx={{ position: 'relative', width: '100%', pt: '56.25%' /* 16:9 Aspect Ratio */ }}>
+                    <Box sx={{ position: 'relative', width: '100%', pt: '56.25%' }}>
                       <img
                         src={video.thumbnail}
                         alt={video.title}
@@ -322,7 +305,7 @@ const Dashboard = () => {
                           width: '100%',
                           height: '100%',
                           objectFit: 'cover',
-                          borderRadius: '12px 12px 0 0', // Top corners only
+                          borderRadius: '12px 12px 0 0', 
                         }}
                       />
                       <IconButton

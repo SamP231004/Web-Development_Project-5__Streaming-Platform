@@ -1,16 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
-import {
-  Box,
-  Typography,
-  CircularProgress,
-  Grid,
-  Card,
-  CardContent,
-  Chip,
-  Avatar,
-  IconButton,
-} from "@mui/material";
+import { Box, Typography, CircularProgress, Grid, Card, CardContent, Chip, Avatar, IconButton } from "@mui/material";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import ListIcon from '@mui/icons-material/List';
 import { motion, AnimatePresence } from "framer-motion";
@@ -53,11 +43,13 @@ const PlaylistPage = () => {
         authHeaders
       );
       setPlaylists(response.data?.data || []);
-    } catch (err) {
+    } 
+    catch (err) {
       setError(
         err.response?.data?.message || err.message || "Failed to load playlists."
       );
-    } finally {
+    } 
+    finally {
       setLoading(false);
       setIsInitialLoad(false);
     }
@@ -105,7 +97,8 @@ const PlaylistPage = () => {
       setPlaylists(prev => prev.map(p => 
         p.isOptimistic ? response.data.data : p
       ));
-    } catch (err) {
+    } 
+    catch (err) {
       setPlaylists(prev => prev.filter(p => !p.isOptimistic));
       setError(
         err.response?.data?.message || err.message || "Failed to create playlist."
@@ -134,8 +127,8 @@ const PlaylistPage = () => {
         authHeaders
       );
       await fetchPlaylists();
-    } catch (err) {
-      // Revert on error
+    } 
+    catch (err) {
       setSelectedPlaylist(originalPlaylist);
       setError(
         err.response?.data?.message || err.message || "Failed to remove video."

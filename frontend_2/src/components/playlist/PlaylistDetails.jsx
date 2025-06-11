@@ -1,18 +1,5 @@
 import React, { useState } from "react";
-import {
-  Box,
-  Typography,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemAvatar,
-  Avatar,
-  IconButton,
-  Card,
-  CardContent,
-  Chip,
-  CircularProgress
-} from "@mui/material";
+import { Box, Typography, List, ListItem, ListItemText, ListItemAvatar, Avatar, IconButton, Card, CardContent, Chip } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { motion } from "framer-motion";
 
@@ -31,7 +18,8 @@ const PlaylistDetails = ({ playlist, onRemoveVideo }) => {
     try {
       setDeletingVideoIds(prev => new Set([...prev, videoId]));
       await onRemoveVideo(videoId);
-    } finally {
+    } 
+    finally {
       setDeletingVideoIds(prev => {
         const newSet = new Set([...prev]);
         newSet.delete(videoId);

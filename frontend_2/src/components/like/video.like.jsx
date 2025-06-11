@@ -9,10 +9,8 @@ const VideoLike = ({ videoId, accessToken }) => {
   const [likeCount, setLikeCount] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
 
-  // Fetch like count and liked state for the video
   const fetchLikeData = async () => {
     try {
-      // Fetch like count
       const countResponse = await axios.get(
         `${API_URL}/api/version_1/likes/video/${videoId}/like-count`,
         {
@@ -22,9 +20,8 @@ const VideoLike = ({ videoId, accessToken }) => {
         }
       );
       const count = countResponse.data.data.likeCount;
-      setLikeCount(count); // Set like count in state
+      setLikeCount(count); 
 
-      // Fetch user's liked state
       const userLikedResponse = await axios.get(
         `${API_URL}/api/version_1/likes/video/${videoId}/user-liked`,
         {
@@ -33,13 +30,12 @@ const VideoLike = ({ videoId, accessToken }) => {
           },
         }
       );
-      setIsLiked(userLikedResponse.data.isLiked); // Set the user's liked state
+      setIsLiked(userLikedResponse.data.isLiked); 
     } catch (error) {
       console.error('Error fetching like data:', error);
     }
   };
 
-  // Function to handle liking/unliking a video
   const toggleLike = async () => {
     try {
       const response = await axios.post(
@@ -53,15 +49,14 @@ const VideoLike = ({ videoId, accessToken }) => {
       );
 
       if (response.data.success) {
-        // Refetch like data to ensure count and liked state are accurate
         fetchLikeData();
       }
-    } catch (error) {
+    } 
+    catch (error) {
       console.error('Error liking/unliking video:', error);
     }
   };
 
-  // Fetch like data when component mounts or when accessToken or videoId changes
   useEffect(() => {
     if (accessToken) {
       fetchLikeData();

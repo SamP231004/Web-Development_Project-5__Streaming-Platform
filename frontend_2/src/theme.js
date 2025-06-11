@@ -118,7 +118,6 @@ const theme = createTheme({
       styleOverrides: {
         '.css-rf1rdx': {
           backgroundColor: 'transparent !important',
-          // backgroundColor: 'red !important',
           padding: '0 !important',
           margin: '0 !important',
           height: '100vh !important',
@@ -140,46 +139,49 @@ const theme = createTheme({
           border: '2px solid white'
         },
         '.css-1ygil4i-MuiToolbar-root': {
-          '@media (min-width: 600px)': {
-            minHeight: '64px',
-            padding: '0 24px',
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center'
-          },
           '@media (max-width: 599px)': {
-            minHeight: '56px',
-            maxHeight: '80vh',
+            margin: '0 2vw',
             maxWidth: '95vw',
-            overflow: 'auto',
-            backgroundColor: 'rgba(0, 0, 0, 0.85)',
-            fontSize: '0.6rem',
-            padding: '8px 16px',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             gap: '8px',
             '& .MuiBox-root': {
-              flexDirection: 'column',
+              display: 'flex',
+              flexDirection: 'row',
               alignItems: 'center',
               gap: '8px',
               '& .MuiTypography-root': {
                 textAlign: 'center',
                 marginRight: '0',
+                fontSize: '0.9rem'
               },
               '& .MuiButton-root': {
                 marginLeft: '0',
+                padding: '6px 12px',
+                minWidth: '120px'
+              },
+              '& .MuiAvatar-root': {
+                marginLeft: '0',
+                marginRight: '0',
+                marginBottom: '4px'
               }
-            },
-            '&::-webkit-scrollbar': {
-              width: '4px',
-            },
-            '&::-webkit-scrollbar-thumb': {
-              backgroundColor: 'rgba(255, 255, 255, 0.2)',
-              borderRadius: '4px',
             }
           }
         },
+        '.css-jpngkl-MuiPaper-root-MuiAppBar-root': {
+          '@media (max-width: 599px)': {
+            margin: '1vw 2vw !important',
+            maxWidth: '95vw',
+            display: 'flex',
+          }
+        },
+        '.css-zol24j-MuiButtonBase-root-MuiIconButton-root': {
+          '@media (max-width: 599px)': {
+            position: 'fixed',
+            left: '5vw',
+          }
+        }
       }
     },
     MuiButton: {

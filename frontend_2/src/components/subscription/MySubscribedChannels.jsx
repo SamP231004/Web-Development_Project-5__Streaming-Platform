@@ -2,24 +2,9 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { handleWatch } from '../video/handleView.video.jsx';
 import GetVideoComments from '../comment/getVideo.comment.jsx';
-import VideoLike from '../like/video.like.jsx'; // Assuming this path is correct for VideoLike
+import VideoLike from '../like/video.like.jsx'; 
 
-import {
-  Box,
-  Typography,
-  CircularProgress,
-  Grid,
-  Card,
-  CardMedia,
-  CardContent,
-  Modal,
-  Backdrop,
-  Fade,
-  IconButton,
-  Chip,
-  Avatar,
-  Button,
-} from '@mui/material';
+import {  Box,  Typography,  CircularProgress,  Grid,  Card,  CardMedia,  CardContent,  Modal,  Backdrop,  Fade,  IconButton,  Chip,  Avatar,  Button  } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -32,8 +17,8 @@ const MySubscribedChannels = ({ currentUser, subscriberId }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
-  const [videos, setVideos] = useState([]); // This will hold all videos for handleWatch
-  const [errorMessage, setErrorMessage] = useState(''); // Renamed from errorMsg
+  const [videos, setVideos] = useState([]); 
+  const [errorMessage, setErrorMessage] = useState(''); 
   const [hoveredVideo, setHoveredVideo] = useState(null);
   const [hoveredChannel, setHoveredChannel] = useState(null);
 
@@ -64,11 +49,10 @@ const MySubscribedChannels = ({ currentUser, subscriberId }) => {
         const fetchedChannels = response.data?.data || [];
         setSubscribedChannels(fetchedChannels);
 
-        // Extract all latest videos from subscribed channels to pass to handleWatch
         const allVideos = fetchedChannels
           .map((item) => item.subscribedChannel?.latestVideo)
-          .filter(Boolean); // Filter out null/undefined videos
-        setVideos(allVideos); // Set these videos for potential view tracking
+          .filter(Boolean); 
+        setVideos(allVideos); 
 
       } catch (err) {
         console.error('Fetch error:', err);
@@ -88,7 +72,6 @@ const MySubscribedChannels = ({ currentUser, subscriberId }) => {
       setErrorMessage('Video URL not available.');
       return;
     }
-    // Pass the current `videos` state, which includes all fetched videos, to handleWatch
     handleWatch(video, videos, setVideos, setErrorMessage, token);
     setSelectedVideo(video);
   };
@@ -242,7 +225,7 @@ const MySubscribedChannels = ({ currentUser, subscriberId }) => {
                         flexDirection: 'column',
                         height: '100%',
                         position: 'relative',
-                        minHeight: '380px', // Adjusted height to accommodate channel info
+                        minHeight: '380px',
                         border: '1px solid rgba(255, 255, 255, 0.1)',
                       }}
                     >

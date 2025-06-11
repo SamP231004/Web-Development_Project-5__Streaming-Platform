@@ -18,10 +18,12 @@ const SubscribersList = ({ channelId }) => {
                     { headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` } }
                 );
                 setSubscribers(res.data.data);
-            } catch (err) {
+            } 
+            catch (err) {
                 console.error('Fetch error:', err);
                 setError('Failed to load subscribers.');
-            } finally {
+            } 
+            finally {
                 setLoading(false);
             }
         };
