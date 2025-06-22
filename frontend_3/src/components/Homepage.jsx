@@ -20,6 +20,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 import LandingPage from '../LandingPage.jsx';
 
+import JoinChannelButton from './payment/JoinChannelButton.jsx';
+
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 const Homepage = ({ currentUser }) => {
@@ -498,11 +500,12 @@ const Homepage = ({ currentUser }) => {
                             {/* Subscription Button beside title */}
                             {video.ownerDetails?._id &&
                             currentUser._id !== video.ownerDetails._id ? (
-                              <Box sx={{ flexShrink: 0, ml: 'auto' }}>
+                              <Box sx={{ flexShrink: 0, ml: 'auto', display: 'flex', alignItems: 'center', gap: '5px' }}>
                                 {' '}
                                 <ToggleSubscriptionButton
                                   channelId={video.ownerDetails._id}
                                 />
+                                <JoinChannelButton channelId={video.ownerDetails._id} />
                               </Box>
                             ) : (
                               <Box

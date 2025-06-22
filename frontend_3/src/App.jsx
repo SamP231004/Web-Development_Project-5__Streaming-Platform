@@ -15,6 +15,8 @@ import Register from './components/user/Register.user';
 import MySubscribedChannels from './components/subscription/MySubscribedChannels';
 import PlaylistPage from './components/playlist/PlaylistPage';
 
+import PaymentSuccess from './components/payment/success.payment';
+
 import theme from './theme.js';
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
@@ -91,6 +93,7 @@ const App = () => {
         />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/payment-success" element={<PaymentSuccess />} />
       </Routes>
     </ThemeProvider>
   );

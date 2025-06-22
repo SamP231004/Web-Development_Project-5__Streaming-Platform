@@ -11,6 +11,7 @@ import subscriptionRouter from './routes/subscription.routes.js';
 import videoRouter from './routes/video.routes.js';
 import playlistRouter from './routes/playlist.routes.js';
 import dashboardRouter from './routes/dashboard.routes.js';
+import paymentRoutes from './routes/payment.routes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -48,6 +49,8 @@ app.use('/api/version_1/subscriptions', subscriptionRouter);
 app.use('/api/version_1/video', videoRouter);
 app.use('/api/version_1/playlist', playlistRouter);
 app.use('/api/version_1/dashboard', dashboardRouter);
+
+app.use("/api/version_1/payment", paymentRoutes);
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {
