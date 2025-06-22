@@ -15,7 +15,7 @@ import Register from './components/user/Register.user';
 import MySubscribedChannels from './components/subscription/MySubscribedChannels';
 import PlaylistPage from './components/playlist/PlaylistPage';
 
-import PaymentSuccess from './components/payment/success.payment';
+import PaymentSuccess from './components/payment/PaymentSuccess';
 
 import theme from './theme.js';
 

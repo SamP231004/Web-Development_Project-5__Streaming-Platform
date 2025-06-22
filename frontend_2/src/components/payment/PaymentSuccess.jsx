@@ -8,15 +8,14 @@ const PaymentSuccess = () => {
 
   useEffect(() => {
     if (channelId) {
-      // Mark this channel as joined in localStorage
       const joinedChannels = JSON.parse(localStorage.getItem("joinedChannels") || "[]");
       if (!joinedChannels.includes(channelId)) {
         joinedChannels.push(channelId);
         localStorage.setItem("joinedChannels", JSON.stringify(joinedChannels));
       }
     }
-    // Redirect to main page after a short delay
-    setTimeout(() => navigate("/"), 1000);
+    const timeout = setTimeout(() => navigate("/"), 1000);
+    return () => clearTimeout(timeout);
   }, [channelId, navigate]);
 
   return <div>Payment successful! Redirecting...</div>;

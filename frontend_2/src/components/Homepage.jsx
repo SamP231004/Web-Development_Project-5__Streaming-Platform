@@ -381,6 +381,8 @@ const Homepage = ({ currentUser }) => {
                         position: 'relative',
                         minHeight: '400px',
                         border: '1px solid rgba(255, 255, 255, 0.1)',
+                        width: { xs: '100%', md: '25vw' },
+                        maxWidth: { xs: '100%', md: '25vw' },
                       }}
                     >
                       <Box
