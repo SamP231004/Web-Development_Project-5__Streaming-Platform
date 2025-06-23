@@ -5,7 +5,7 @@ import axios from "axios";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
-const JoinChannelButton = ({ channelId }) => {
+const JoinChannelButton = ({ channelId, username }) => {
   const [loading, setLoading] = useState(false);
   const [joined, setJoined] = useState(false);
 
@@ -27,7 +27,7 @@ const JoinChannelButton = ({ channelId }) => {
       const token = localStorage.getItem("accessToken");
       const res = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/version_1/payment/create-checkout-session`,
-        { channelId },
+        { channelId, username },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       window.open(res.data.url);

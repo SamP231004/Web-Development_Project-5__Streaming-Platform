@@ -47,10 +47,10 @@ const Homepage = ({ currentUser }) => {
       const videoData = await fetchAllVideos(token);
       setVideos(videoData);
       // console.log('Fetched videos:', videoData);
-    } 
+    }
     catch (error) {
       setErrorMessage(error.message || 'Failed to load videos.');
-    } 
+    }
     finally {
       setIsLoading(false);
     }
@@ -64,7 +64,7 @@ const Homepage = ({ currentUser }) => {
         authHeaders
       );
       setPlaylists(res.data.data || []);
-    } 
+    }
     catch (err) {
       console.error('Failed to fetch playlists:', err);
     }
@@ -123,11 +123,11 @@ const Homepage = ({ currentUser }) => {
         authHeaders
       );
       alert('Video added to playlist!');
-    } 
+    }
     catch (err) {
       console.error('Failed to add video to playlist:', err);
       alert(err.response?.data?.message || 'Failed to add video to playlist.');
-    } 
+    }
     finally {
       setAddingVideoId(null);
     }
@@ -276,64 +276,64 @@ const Homepage = ({ currentUser }) => {
             initial="hidden"
             animate="visible"
           >
-          <Grid container spacing={3} sx={{ mb: 5, ml: 3 }}>
-            {LOCAL_FEATURED_VIDEOS.map((video) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={video._id}>
-                <motion.div
-                  variants={featuredItemVariants}
-                  whileHover="hover"
-                  initial="visible"
-                  style={{
-                    position: 'relative',
-                    cursor: 'pointer',
-                    borderRadius: '12px',
-                    overflow: 'hidden',
-                    height: '100%',
-                    transformOrigin: 'left center',
-                    border: '1px solid black',
-                    boxShadow: '0 0px 6px rgba(0, 255, 255, 0.8)',
-                  }}
-                >
-                  <Card
-                    sx={{
-                      height: '100%',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      bgcolor: 'background.paper',
+            <Grid container spacing={3} sx={{ mb: 5, ml: 3 }}>
+              {LOCAL_FEATURED_VIDEOS.map((video) => (
+                <Grid item xs={12} sm={6} md={4} lg={3} key={video._id}>
+                  <motion.div
+                    variants={featuredItemVariants}
+                    whileHover="hover"
+                    initial="visible"
+                    style={{
+                      position: 'relative',
+                      cursor: 'pointer',
                       borderRadius: '12px',
                       overflow: 'hidden',
-                      position: 'relative',
+                      height: '100%',
+                      transformOrigin: 'left center',
+                      border: '1px solid black',
+                      boxShadow: '0 0px 6px rgba(0, 255, 255, 0.8)',
                     }}
                   >
-                    <Box
+                    <Card
                       sx={{
-                        position: 'relative',
-                        height: 350,
-                        width: '100%',
-                        overflow: 'hidden',
+                        height: '100%',
                         display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        bgcolor: 'black',
+                        flexDirection: 'column',
+                        bgcolor: 'background.paper',
+                        borderRadius: '12px',
+                        overflow: 'hidden',
+                        position: 'relative',
                       }}
                     >
-                      <video
-                        src={video.videoFile}
-                        autoPlay
-                        loop
-                        muted
-                        style={{
+                      <Box
+                        sx={{
+                          position: 'relative',
+                          height: 350,
                           width: '100%',
-                          height: '100%',
-                          objectFit: 'cover',
+                          overflow: 'hidden',
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          bgcolor: 'black',
                         }}
-                      />
-                    </Box>
-                  </Card>
-                </motion.div>
-              </Grid>
-            ))}
-          </Grid>
+                      >
+                        <video
+                          src={video.videoFile}
+                          autoPlay
+                          loop
+                          muted
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                          }}
+                        />
+                      </Box>
+                    </Card>
+                  </motion.div>
+                </Grid>
+              ))}
+            </Grid>
           </motion.div>
 
           {/* Separator line */}
@@ -357,7 +357,7 @@ const Homepage = ({ currentUser }) => {
             initial="hidden"
             animate="visible"
           >
-            <Grid container spacing={4} sx={{justifyContent: 'center !important'}}>
+            <Grid container spacing={4} sx={{ justifyContent: 'center !important' }}>
               {videos.map((video) => (
                 <Grid item xs={12} sm={6} md={4} lg={3} key={video._id}>
                   <motion.div
@@ -500,13 +500,16 @@ const Homepage = ({ currentUser }) => {
                             </Typography>
                             {/* Subscription Button beside title */}
                             {video.ownerDetails?._id &&
-                            currentUser._id !== video.ownerDetails._id ? (
+                              currentUser._id !== video.ownerDetails._id ? (
                               <Box sx={{ flexShrink: 0, ml: 'auto', display: 'flex', alignItems: 'center', gap: '5px' }}>
                                 {' '}
                                 <ToggleSubscriptionButton
                                   channelId={video.ownerDetails._id}
                                 />
-                                <JoinChannelButton channelId={video.ownerDetails._id} />
+                                <JoinChannelButton
+                                  channelId={video.ownerDetails._id}
+                                  username={video.ownerDetails.username}
+                                />
                               </Box>
                             ) : (
                               <Box

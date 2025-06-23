@@ -8,7 +8,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
 
 router.post("/create-checkout-session", verifyJWT, async (req, res) => {
-  const { channelId } = req.body;
+  const { channelId, username } = req.body;
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     line_items: [
@@ -17,9 +17,9 @@ router.post("/create-checkout-session", verifyJWT, async (req, res) => {
           currency: "inr",
           product_data: {
             name: "Channel Membership",
-            description: `Join channel ${channelId}`,
+            description: `Join channel ${username}`,
           },
-          unit_amount: 10000, // Rs 100 in paise
+          unit_amount: 10000,
         },
         quantity: 1,
       },
@@ -30,6 +30,7 @@ router.post("/create-checkout-session", verifyJWT, async (req, res) => {
     metadata: {
       userId: String(req.user._id),
       channelId: String(channelId),
+      username: String(username),
     },
   });
   res.json({ url: session.url });
