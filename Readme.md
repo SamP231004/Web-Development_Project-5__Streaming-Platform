@@ -1,6 +1,8 @@
 # StreamingPlatform: Where Every Frame Tells a Story 🎬✨
 
-Welcome to **StreamingPlatform**, a dynamic video streaming platform where every frame truly tells a story. Stream your favorite series, films, and documentaries with unmatched visual and audio quality, right at your fingertips. Built with the powerful **MERN (MongoDB, Express.js, React, Node.js)** stack, this project showcases robust video management, interactive user engagement features, and a commitment to modern UI/UX principles, evolving through distinct versions.
+Welcome to **StreamingPlatform**, a dynamic video streaming platform where every frame truly tells a story. Stream your favorite series, films, and documentaries with unmatched visual and audio quality, right at your fingertips. 
+Built with the powerful **MERN (MongoDB, Express.js, React, Node.js)** stack, this project showcases robust video management, interactive user engagement features, and a commitment to modern UI/UX principles, evolving through distinct versions.
+Now enhanced with **Stripe payment gateway integration**, Users can securely subscribe to premium channels and unlock exclusive content—supporting creators directly through seamless and secure Stripe transactions.
 
 ---
 
@@ -39,6 +41,10 @@ Building upon Version 1's foundation, this iteration introduces significant enha
     * Easily add or remove videos from your playlists.
 * ✅ **Channel Subscriptions:** Follow your favorite channels to stay updated with their latest uploads.
     * Effortlessly view and manage your subscriptions.
+* 💳 **Paid Channel Memberships (via Stripe):** Support your favorite creators by joining exclusive channels through secure Stripe payments.
+    * Integrated Stripe Checkout for seamless and secure transactions.
+    * Access members-only videos and exclusive content after successful payment.
+    * View and manage your active memberships from your dashboard.
 * 🌟 **Redefined UI/UX:** Experience a completely revamped user interface designed for intuitive navigation and an aesthetically pleasing, modern feel.
     * Improved responsiveness across all devices.
     * Enhanced visual feedback and fluid animations for a smoother user journey.
@@ -52,7 +58,7 @@ StreamingPlatform leverages a powerful combination of technologies to deliver a 
 | Category            | Technologies                                                                                               |
 | :------------------ | :--------------------------------------------------------------------------------------------------------- |
 | **Frontend** 💻   | **React.js** (Hooks), **Material-UI** (MUI), **Framer Motion**, **Axios**, **Mux Player**, **Vite**, HTML5 / CSS3 / JavaScript |
-| **Backend** ⚙️    | **Node.js**, **Express.js**, **MongoDB**, **Mongoose**, **JSON Web Tokens** (JWT), **Bcrypt.js** |
+| **Backend** ⚙️    | **Node.js**, **Express.js**, **MongoDB**, **Mongoose**, **JSON Web Tokens** (JWT), **Bcrypt.js**, **Stripe API (for payment processing and subscriptions)** | 
 | **Cloud & Hosting** 🌐 | **Vercel** (Frontend V2), **Render** (Frontend V1 & Backend), **Mux** (Video Streaming API & CDN)          |
 
 ---
@@ -86,6 +92,10 @@ Witness the user interface and key features of StreamingPlatform across its vers
 ### 📊 Dashboard:
 ![StreamingPlatform V2 Dashboard](ScreenShots/SSV2_6.png)  
 *📈 A comprehensive overview of your channel's performance and video analytics.*
+
+### 💳 Stripe Payment Gateway to Join Channel:
+![StreamingPlatform V2 Stripe Payment Gateway](ScreenShots/SSV2_10.png) 
+*🔒 Securely enable viewers to join your premium channel with seamless Stripe integration for paid subscriptions.
 
 ### 📱 Mobile View:  
 <p align="center">
