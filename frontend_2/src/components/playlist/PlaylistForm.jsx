@@ -1,29 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { Box, TextField, Button, Typography, CircularProgress, Alert } from "@mui/material";
+import { useState } from "react";
+import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button, CircularProgress, Alert } from "@mui/material";
+import { getErrorMessage } from "../../api.js";
 
-const PlaylistForm = ({ onSubmit, initialData = {} }) => {
-  const [formData, setFormData] = useState({
-    name: initialData.name || "",
-    description: initialData.description || ""
-  });
+const EMPTY_FORM = { name: "", description: "" };
+
+const PlaylistForm = ({ open, onClose, onSubmit }) => {
+  const [formData, setFormData] = useState(EMPTY_FORM);
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  useEffect(() => {
-    if (initialData && Object.keys(initialData).length > 0) {
-      setFormData({
-        name: initialData.name || "",
-        description: initialData.description || ""
-      });
-    }
-  }, [initialData]);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleClose = () => {
+    if (isSubmitting) return;
+    setError("");
+    onClose();
   };
 
   const handleSubmit = async (e) => {
@@ -41,133 +35,51 @@ const PlaylistForm = ({ onSubmit, initialData = {} }) => {
 
     try {
       setIsSubmitting(true);
-      await onSubmit(formData);
-      if (!initialData._id) {
-        setFormData({ name: "", description: "" });
-      }
-    } 
+      await onSubmit({ name: formData.name.trim(), description: formData.description.trim() });
+      setFormData(EMPTY_FORM);
+      onClose();
+    }
     catch (err) {
-      setError(err.message || "Failed to save playlist.");
-    } 
+      setError(getErrorMessage(err, "Failed to save playlist."));
+    }
     finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <Box
-      component="form"
-      onSubmit={handleSubmit}
-      noValidate
-      sx={{
-        maxWidth: 500,
-        margin: "auto",
-        p: 3,
-        bgcolor: 'background.paper',
-        borderRadius: '12px',
-        boxShadow: 3,
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 2,
-        mt: 4,
-      }}
-    >
-      {/* Title */}
-      <Typography
-        variant="h5"
-        component="h2"
-        sx={{
-          mb: 2,
-          color: 'text.primary',
-          fontWeight: 'bold',
-          textAlign: 'center'
-        }}
-      >
-        {initialData._id ? "Edit Playlist" : "Create New Playlist"}
-      </Typography>
-
-      {/* Error Alert */}
-      {error && (
-        <Alert severity="error" sx={{ mb: 2 }}>
-          {error}
-        </Alert>
-      )}
-
-      {/* Form Fields */}
-      <TextField
-        fullWidth
-        name="name"
-        label="Playlist Name"
-        variant="outlined"
-        value={formData.name}
-        onChange={handleChange}
-        // Remove disabled prop
-        sx={{
-          '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-            borderColor: 'rgba(255, 255, 255, 0.2)',
-          },
-          '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
-            borderColor: 'primary.main',
-          },
-          '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-            borderColor: 'primary.light',
-          },
-          '& .MuiInputLabel-root': { color: 'text.secondary' },
-          '& .MuiInputBase-input': { color: 'text.primary' },
-        }}
-      />
-
-      <TextField
-        fullWidth
-        name="description"
-        label="Playlist Description"
-        variant="outlined"
-        multiline
-        rows={4}
-        value={formData.description}
-        onChange={handleChange}
-        sx={{
-          '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-            borderColor: 'rgba(255, 255, 255, 0.2)',
-          },
-          '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
-            borderColor: 'primary.main',
-          },
-          '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-            borderColor: 'primary.light',
-          },
-          '& .MuiInputLabel-root': { color: 'text.secondary' },
-          '& .MuiInputBase-input': { color: 'text.primary' },
-        }}
-      />
-
-      {/* Submit Button */}
-      <Button
-        type="submit"
-        variant="contained"
-        color="primary"
-        disabled={isSubmitting}
-        sx={{
-          mt: 2,
-          py: 1.5,
-          fontWeight: 'bold',
-          borderRadius: '8px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 1,
-        }}
-      >
-        {isSubmitting ? (
-          <>
-            <CircularProgress size={20} color="inherit" />
-            {initialData._id ? "Updating..." : "Creating..."}
-          </>
-        ) : (
-          initialData._id ? "Update Playlist" : "Create Playlist"
-        )}
-      </Button>
-    </Box>
+    <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs" PaperProps={{ component: "form", onSubmit: handleSubmit, noValidate: true }}>
+      <DialogTitle sx={{ fontWeight: 700 }}>New playlist</DialogTitle>
+      <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2, pt: "8px !important" }}>
+        {error && <Alert severity="error">{error}</Alert>}
+        <TextField
+          autoFocus
+          fullWidth
+          name="name"
+          label="Name"
+          value={formData.name}
+          onChange={handleChange}
+          inputProps={{ maxLength: 80 }}
+        />
+        <TextField
+          fullWidth
+          name="description"
+          label="Description"
+          multiline
+          rows={3}
+          value={formData.description}
+          onChange={handleChange}
+        />
+      </DialogContent>
+      <DialogActions sx={{ px: 3, pb: 2 }}>
+        <Button onClick={handleClose} color="inherit" disabled={isSubmitting} sx={{ boxShadow: "none" }}>
+          Cancel
+        </Button>
+        <Button type="submit" variant="contained" disabled={isSubmitting}>
+          {isSubmitting ? <CircularProgress size={20} color="inherit" /> : "Create"}
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 

@@ -1,23 +1,16 @@
-import axios from 'axios';
+import api, { getErrorMessage } from '../../api.js';
 
-const API_URL = import.meta.env.VITE_BACKEND_URL;
-
-export const fetchAllVideos = async (accessToken) => {
+// The backend paginates (10 per page by default), so always ask for an explicit page.
+export const fetchAllVideos = async ({ page = 1, limit = 24 } = {}) => {
   try {
-    const response = await axios.get(`${API_URL}/api/version_1/video`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-
-    if (response.data.success) {
-      return response.data.data.docs;
-    } 
-    else {
-      throw new Error('Failed to load videos: Please try again later.');
-    }
-  } 
+    const { data } = await api.get('/video', { params: { page, limit } });
+    return {
+      videos: data.data?.docs || [],
+      hasNextPage: !!data.data?.hasNextPage,
+      totalDocs: data.data?.totalDocs ?? 0,
+    };
+  }
   catch (error) {
-    throw new Error('An unexpected error occurred.');
+    throw new Error(getErrorMessage(error, 'Failed to load videos. Please try again later.'));
   }
 };

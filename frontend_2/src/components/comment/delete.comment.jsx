@@ -1,39 +1,34 @@
-import deleteIcon from '../../Images_Used/image_6.png';
-
-const API_URL = import.meta.env.VITE_BACKEND_URL;
+import { useState } from 'react';
+import { IconButton, Tooltip, CircularProgress } from '@mui/material';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import api, { getErrorMessage } from '../../api.js';
+import { useNotify } from '../common/Notify.jsx';
 
 const DeleteComment = ({ commentId, onCommentDeleted }) => {
+  const [deleting, setDeleting] = useState(false);
+  const notify = useNotify();
+
   const handleDelete = async () => {
-    const accessToken = localStorage.getItem('accessToken');
-
+    setDeleting(true);
     try {
-      const response = await fetch(`${API_URL}/api/version_1/comment/channel/${commentId}`, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to delete comment. You might not be the owner.');
-      }
-
+      await api.delete(`/comment/channel/${commentId}`);
       onCommentDeleted(commentId);
-    } 
+    }
     catch (error) {
       console.error('Error deleting comment:', error);
-      alert(error.message);
+      notify(getErrorMessage(error, 'Failed to delete comment.'), 'error');
+      setDeleting(false);
     }
   };
 
   return (
-    <img
-      src={deleteIcon}
-      alt="Delete"
-      onClick={handleDelete}
-      className="delete-icon"
-    />
+    <Tooltip title="Delete comment">
+      <span>
+        <IconButton size="small" onClick={handleDelete} disabled={deleting} aria-label="Delete comment" sx={{ '&:hover': { color: 'error.main' } }}>
+          {deleting ? <CircularProgress size={16} color="inherit" /> : <DeleteOutlineIcon fontSize="small" />}
+        </IconButton>
+      </span>
+    </Tooltip>
   );
 };
 

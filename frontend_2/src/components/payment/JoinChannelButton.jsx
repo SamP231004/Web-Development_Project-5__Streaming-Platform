@@ -1,61 +1,49 @@
-import React, { useState, useEffect } from "react";
-import Button from "@mui/material/Button";
-import { loadStripe } from "@stripe/stripe-js";
-import axios from "axios";
+import { Button, Tooltip, CircularProgress } from '@mui/material';
+import WorkspacePremiumOutlinedIcon from '@mui/icons-material/WorkspacePremiumOutlined';
+import { getErrorMessage } from '../../api.js';
+import { useNotify } from '../common/Notify.jsx';
+import { useJoinChannel } from './useJoinChannel.js';
 
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+const JoinChannelButton = ({ channelId, username, size = 'small' }) => {
+  const { joined, loading, join } = useJoinChannel(channelId, username);
+  const notify = useNotify();
 
-const JoinChannelButton = ({ channelId, username }) => {
-  const [loading, setLoading] = useState(false);
-  const [joined, setJoined] = useState(false);
-
-  // Check joined status on mount and when storage changes
-  useEffect(() => {
-    const checkJoined = () => {
-      const joinedChannels = JSON.parse(localStorage.getItem("joinedChannels") || "[]");
-      setJoined(joinedChannels.includes(channelId));
-    };
-    checkJoined();
-    window.addEventListener("storage", checkJoined);
-    return () => window.removeEventListener("storage", checkJoined);
-  }, [channelId]);
-
-  const handleJoin = async (e) => {
-    e.stopPropagation();
-    setLoading(true);
+  const handleJoin = async (event) => {
+    event.stopPropagation();
     try {
-      const token = localStorage.getItem("accessToken");
-      const res = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/version_1/payment/create-checkout-session`,
-        { channelId, username },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      window.open(res.data.url);
-    } catch (err) {
-      alert("Failed to start payment.");
-    } finally {
-      setLoading(false);
+      await join();
+    }
+    catch (error) {
+      notify(getErrorMessage(error, 'Failed to start payment.'), 'error');
     }
   };
 
   return (
-    <Button
-      style={{
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        color: 'white',
-        borderRadius: '10px',
-        padding: '3px 7px',
-        border: '0.5px solid white',
-        cursor: 'pointer',
-        fontWeight: 'normal',
-        fontFamily: 'sans-serif',
-      }}
-      color={joined ? "success" : "primary"}
-      disabled={joined || loading}
-      onClick={handleJoin}
-    >
-      {joined ? "Joined" : loading ? "Redirecting..." : "Join"}
-    </Button>
+    <Tooltip title={joined ? 'You are a member of this channel' : 'Become a channel member for ₹100'} arrow>
+      <span>
+        <Button
+          size={size}
+          variant="outlined"
+          color={joined ? 'success' : 'secondary'}
+          disabled={joined || loading}
+          onClick={handleJoin}
+          startIcon={loading ? <CircularProgress size={14} color="inherit" /> : <WorkspacePremiumOutlinedIcon fontSize="small" />}
+          sx={{
+            borderRadius: 999,
+            px: size === 'small' ? 1.5 : 2.25,
+            py: 0,
+            minHeight: size === 'small' ? 32 : 38,
+            fontSize: size === 'small' ? '0.85rem' : '0.95rem',
+            whiteSpace: 'nowrap',
+            boxShadow: 'none',
+            borderColor: joined ? undefined : 'rgba(0, 212, 255, 0.4)',
+            '& .MuiButton-startIcon': { mr: 0.5 },
+          }}
+        >
+          {joined ? 'Member' : 'Join'}
+        </Button>
+      </span>
+    </Tooltip>
   );
 };
 

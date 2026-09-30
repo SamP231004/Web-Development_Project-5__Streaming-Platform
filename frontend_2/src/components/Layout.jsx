@@ -1,14 +1,26 @@
-import { useNavigate } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, Button, IconButton, Avatar, Box, Drawer, List, ListItem, ListItemText, ListItemIcon } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
+import {
+  AppBar, Toolbar, Typography, Button, IconButton, Avatar, Box, Drawer, List,
+  ListItemButton, ListItemText, ListItemIcon, Tooltip, Menu, MenuItem, Divider, InputBase,
+} from '@mui/material';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import HomeIcon from '@mui/icons-material/Home';
+import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import SubscriptionsOutlinedIcon from '@mui/icons-material/SubscriptionsOutlined';
 import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
+import VideoLibraryOutlinedIcon from '@mui/icons-material/VideoLibraryOutlined';
 import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
-import PublishIcon from '@mui/icons-material/Publish';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
+import FileUploadIcon from '@mui/icons-material/FileUpload';
+import InsightsOutlinedIcon from '@mui/icons-material/InsightsOutlined';
+import InsightsIcon from '@mui/icons-material/Insights';
+import LogoutIcon from '@mui/icons-material/Logout';
 import MenuIcon from '@mui/icons-material/Menu';
-import { useState } from 'react';
+import SearchIcon from '@mui/icons-material/Search';
+import CloseIcon from '@mui/icons-material/Close';
+import VideoCallOutlinedIcon from '@mui/icons-material/VideoCallOutlined';
 import { motion } from 'framer-motion';
 
 import image_1 from '../Images_Used/image_1.png';
@@ -16,196 +28,367 @@ import image_2 from '../Images_Used/image_2.png';
 import image_3 from '../Images_Used/image_3.png';
 import image_4 from '../Images_Used/image_4.png';
 
-const Layout = ({ children, currentUser, onLogout }) => {
+const SIDEBAR_WIDTH = 240;
+const HEADER_HEIGHT = 64;
+
+const navSections = [
+  {
+    items: [
+      { text: 'Home', icon: HomeOutlinedIcon, activeIcon: HomeIcon, path: '/' },
+      { text: 'Subscriptions', icon: SubscriptionsOutlinedIcon, activeIcon: SubscriptionsIcon, path: '/subscriptions/my-channels' },
+    ],
+  },
+  {
+    title: 'You',
+    items: [
+      { text: 'Liked videos', icon: ThumbUpOutlinedIcon, activeIcon: ThumbUpIcon, path: '/likes/liked-videos' },
+      { text: 'Playlists', icon: VideoLibraryOutlinedIcon, activeIcon: VideoLibraryIcon, path: '/playlist' },
+    ],
+  },
+  {
+    title: 'Studio',
+    items: [
+      { text: 'Upload video', icon: FileUploadOutlinedIcon, activeIcon: FileUploadIcon, path: '/publish-video' },
+      { text: 'Dashboard', icon: InsightsOutlinedIcon, activeIcon: InsightsIcon, path: '/dashboard/stats' },
+    ],
+  },
+];
+
+const socialLinks = [
+  { href: 'https://samp231004.github.io/Portfolio/', icon: image_2, label: 'Portfolio' },
+  { href: 'https://www.linkedin.com/in/samp2310/', icon: image_3, label: 'LinkedIn' },
+  { href: 'https://github.com/SamP231004', icon: image_4, label: 'GitHub' },
+];
+
+const SocialLinks = ({ direction = 'row' }) => (
+  <Box sx={{ display: 'flex', flexDirection: direction, gap: 0.5 }}>
+    {socialLinks.map(({ href, icon, label }) => (
+      <Tooltip key={label} title={label} placement={direction === 'row' ? 'top' : 'left'}>
+        <IconButton component={motion.a} href={href} target="_blank" rel="noreferrer" aria-label={label} size="small" whileHover={{ scale: 1.12 }}>
+          <img src={icon} alt="" style={{ height: 18, filter: 'invert(1)', opacity: 0.7 }} />
+        </IconButton>
+      </Tooltip>
+    ))}
+  </Box>
+);
+
+const Sidebar = ({ pathname, onNavigate }) => (
+  <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', px: 1.5, py: 1.5 }}>
+    {navSections.map((section, index) => (
+      <Box key={section.title || index}>
+        {index > 0 && <Divider sx={{ my: 1.5, mx: 1.5 }} />}
+        {section.title && (
+          <Typography sx={{ px: 1.5, pb: 0.75, fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'text.disabled' }}>
+            {section.title}
+          </Typography>
+        )}
+        <List disablePadding sx={{ display: 'flex', flexDirection: 'column', gap: 0.25 }}>
+          {section.items.map(({ text, icon: Icon, activeIcon: ActiveIcon, path }) => {
+            const selected = pathname === path;
+            return (
+              <ListItemButton
+                key={path}
+                selected={selected}
+                onClick={() => onNavigate(path)}
+                sx={{
+                  position: 'relative',
+                  borderRadius: 2.5,
+                  minHeight: 42,
+                  px: 1.5,
+                  color: selected ? 'text.primary' : 'text.secondary',
+                  '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.06)', color: 'text.primary' },
+                  '&.Mui-selected': {
+                    bgcolor: 'rgba(255, 255, 255, 0.08)',
+                    '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.11)' },
+                    '&::before': {
+                      content: '""',
+                      position: 'absolute',
+                      left: -12,
+                      top: 10,
+                      bottom: 10,
+                      width: 3,
+                      borderRadius: '0 3px 3px 0',
+                      bgcolor: 'primary.main',
+                    },
+                  },
+                }}
+              >
+                <ListItemIcon sx={{ minWidth: 38, color: selected ? 'primary.main' : 'inherit' }}>
+                  {selected ? <ActiveIcon fontSize="small" /> : <Icon fontSize="small" />}
+                </ListItemIcon>
+                <ListItemText primary={text} primaryTypographyProps={{ fontSize: '0.92rem', fontWeight: selected ? 600 : 500 }} />
+              </ListItemButton>
+            );
+          })}
+        </List>
+      </Box>
+    ))}
+
+    <Box sx={{ mt: 'auto', pt: 2, px: 1 }}>
+      <SocialLinks />
+      <Typography sx={{ fontSize: '0.72rem', color: 'text.disabled', mt: 1, px: 0.5 }}>
+        © {new Date().getFullYear()} StreamingPlatform
+      </Typography>
+    </Box>
+  </Box>
+);
+
+const SearchBar = ({ autoFocus, onDone }) => {
   const navigate = useNavigate();
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [searchParams] = useSearchParams();
+  const urlQuery = searchParams.get('q') || '';
+  const [value, setValue] = useState(urlQuery);
 
-  const userAvatar = currentUser?.avatar;
-  const username = currentUser?.username;
+  useEffect(() => setValue(urlQuery), [urlQuery]);
 
-  const toggleDrawer = (open) => (event) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-      return;
-    }
-    setDrawerOpen(open);
+  const submit = (e) => {
+    e.preventDefault();
+    const q = value.trim();
+    navigate(q ? `/?q=${encodeURIComponent(q)}` : '/');
+    onDone?.();
   };
 
-  const menuItems = [
-    { text: 'Home', icon: <HomeIcon />, path: '/' },
-    { text: 'Liked Videos', icon: <ThumbUpIcon />, path: '/likes/liked-videos' },
-    { text: 'My Subscriptions', icon: <SubscriptionsIcon />, path: '/subscriptions/my-channels' },
-    { text: 'Playlists', icon: <VideoLibraryIcon />, path: '/playlist' },
-    { text: 'Publish Video', icon: <PublishIcon />, path: '/publish-video' },
-    { text: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard/stats' },
-  ];
+  const clear = () => {
+    setValue('');
+    if (urlQuery) navigate('/');
+  };
 
   return (
-    <Box sx={{
-      display: 'flex',
-      height: '100vh',
-      overflowY: 'auto',
-      overflowX: 'hidden',
-      position: 'relative',
-      '&::-webkit-scrollbar': {
-        width: '0px',
-        backgroundColor: 'transparent'
-      },
-      '&::-webkit-scrollbar-thumb': {
-        backgroundColor: 'rgba(255, 255, 255, 0.2)',
-        borderRadius: '4px',
-        '&:hover': {
-          backgroundColor: 'rgba(255, 255, 255, 0.3)'
-        }
-      }
-    }}>
-      {/* Header */}
-      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, backgroundColor: 'rgba(0,0,0,0.5)', marginX: { xs: 0, md: '15px' }, marginY: {xs: 0, md: '10px'}, width: { xs: '100%', md: 'calc(100% - 30px)' }, boxShadow: '0 0px 6px rgba(0, 255, 255, 0.8)', backdropFilter: 'blur(10px)' }}>
-        <Toolbar>
-          {currentUser && (
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
-              onClick={toggleDrawer(true)}
-              sx={{ mr: 2, display: { md: 'none' }} }
-            >
-              <MenuIcon />
-            </IconButton>
-          )}
-          <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }} onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-            <motion.img
-              src={image_1}
-              alt="StreamingPlatform Logo"
-              style={{ height: '40px', marginRight: '10px', filter: 'invert(1)' }}
-              whileHover={{ rotate: 5 }}
-            />
-            <Typography variant="root" component="div" sx={{ color: 'text.primary', letterSpacing: '1px' }}>
-              StreamingPlatform
-            </Typography>
-          </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Box
-              sx={(theme) => ({
-                alignItems: 'center',
-                position: 'fixed',
-                flexDirection: 'column',
-                right: '-1vw',
-                top: '80vh',
-                padding: 0,
-                zIndex: 1000,
-                backdropFilter: 'blur(10px)',
-                borderRadius: '12px',
-                display: 'flex',
-                '@media (max-width: 599px)': {
-                  display: 'none'
-                }
-              })}
-            >
-              <motion.a href="https://samp231004.github.io/Portfolio/" target='_blank' rel="noreferrer" whileHover={{ scale: 1.2 }}>
-                <IconButton color="inherit" sx={{ mx: 1 }}>
-                  <img src={image_2} alt="Portfolio" style={{ height: '24px', filter: 'invert(1)' }} />
+    <Box
+      component="form"
+      role="search"
+      onSubmit={submit}
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        width: '100%',
+        maxWidth: 560,
+        height: 42,
+        pl: 2,
+        pr: 0.5,
+        borderRadius: 999,
+        bgcolor: 'rgba(255, 255, 255, 0.06)',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+        transition: 'border-color 0.2s, background-color 0.2s',
+        '&:focus-within': { borderColor: 'rgba(0, 212, 255, 0.6)', bgcolor: 'rgba(255, 255, 255, 0.08)' },
+      }}
+    >
+      <InputBase
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        placeholder="Search videos and channels"
+        autoFocus={autoFocus}
+        inputProps={{ 'aria-label': 'Search videos' }}
+        sx={{ flexGrow: 1, fontSize: '0.95rem' }}
+      />
+      {value && (
+        <IconButton size="small" onClick={clear} aria-label="Clear search">
+          <CloseIcon fontSize="small" />
+        </IconButton>
+      )}
+      <IconButton type="submit" aria-label="Search" sx={{ ml: 0.5, bgcolor: 'rgba(255,255,255,0.06)', width: 34, height: 34 }}>
+        <SearchIcon fontSize="small" />
+      </IconButton>
+    </Box>
+  );
+};
+
+const Layout = ({ children, currentUser, onLogout, fullBleed = false }) => {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+  const [accountAnchor, setAccountAnchor] = useState(null);
+
+  const handleNavigate = (path) => {
+    setDrawerOpen(false);
+    navigate(path);
+  };
+
+  const handleLogout = () => {
+    setAccountAnchor(null);
+    onLogout();
+  };
+
+  return (
+    <Box sx={{ display: 'flex', minHeight: '100vh' }}>
+      <AppBar
+        position="fixed"
+        elevation={0}
+        sx={{
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+          bgcolor: 'rgba(8, 8, 8, 0.75)',
+          backgroundImage: 'none',
+          backdropFilter: 'blur(16px)',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
+          borderRadius: 0,
+        }}
+      >
+        <Toolbar sx={{ minHeight: `${HEADER_HEIGHT}px !important`, gap: { xs: 1, sm: 2 }, px: { xs: 1.5, sm: 2.5 } }}>
+          {currentUser && mobileSearchOpen ? (
+            <>
+              <IconButton onClick={() => setMobileSearchOpen(false)} aria-label="Close search">
+                <CloseIcon />
+              </IconButton>
+              <SearchBar autoFocus onDone={() => setMobileSearchOpen(false)} />
+            </>
+          ) : (
+            <>
+              {currentUser && (
+                <IconButton color="inherit" aria-label="Open navigation" edge="start" onClick={() => setDrawerOpen(true)} sx={{ display: { md: 'none' } }}>
+                  <MenuIcon />
                 </IconButton>
-              </motion.a>
-              <motion.a href="https://www.linkedin.com/in/samp2310/" target='_blank' rel="noreferrer" whileHover={{ scale: 1.2 }}>
-                <IconButton color="inherit" sx={{ mx: 1 }}>
-                  <img src={image_3} alt="LinkedIn" style={{ height: '24px', filter: 'invert(1)' }} />
-                </IconButton>
-              </motion.a>
-              <motion.a href="https://github.com/SamP231004" target='_blank' rel="noreferrer" whileHover={{ scale: 1.2 }}>
-                <IconButton color="inherit" sx={{ mx: 1 }}>
-                  <img src={image_4} alt="GitHub" style={{ height: '24px', filter: 'invert(1)' }} />
-                </IconButton>
-              </motion.a>
-            </Box>
-            {currentUser ? (
-              <>
-                <Avatar src={userAvatar} alt={username} sx={{ ml: 2, mr: 1, border: '2px solid', borderColor: 'primary.main' }} />
-                <Typography variant="subtitle1" sx={{ mr: 2, color: 'text.primary' }}>
-                  {username}
+              )}
+              <Box
+                component="button"
+                onClick={() => navigate('/')}
+                aria-label="Go to home"
+                sx={{ display: 'flex', alignItems: 'center', gap: 1, flexShrink: 0, bgcolor: 'transparent', border: 0, p: 0, cursor: 'pointer', color: 'inherit', minWidth: { md: SIDEBAR_WIDTH - 20 } }}
+              >
+                <motion.img src={image_1} alt="" style={{ height: 28, filter: 'invert(1)' }} whileHover={{ rotate: 8 }} />
+                <Typography variant="root" component="span" sx={{ color: 'text.primary', letterSpacing: '0.5px', whiteSpace: 'nowrap', fontSize: { xs: '1rem', sm: '1.2rem' }, '@media (max-width: 380px)': { display: 'none' } }}>
+                  Streaming<Box component="span" sx={{ color: 'primary.main' }}>Platform</Box>
                 </Typography>
-                <Button color="inherit" onClick={onLogout} startIcon={<ExitToAppIcon />} sx={{ color: 'text.secondary' }}>
-                  Logout
-                </Button>
-              </>
-            ) : null}
-          </Box>
+              </Box>
+
+              <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
+                {currentUser && (
+                  <Box sx={{ width: '100%', display: { xs: 'none', sm: 'flex' }, justifyContent: 'center' }}>
+                    <SearchBar />
+                  </Box>
+                )}
+              </Box>
+
+              {currentUser && (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0.5, sm: 1.5 } }}>
+                  <IconButton aria-label="Search" onClick={() => setMobileSearchOpen(true)} sx={{ display: { sm: 'none' } }}>
+                    <SearchIcon />
+                  </IconButton>
+                  <Button
+                    variant="outlined"
+                    color="inherit"
+                    startIcon={<VideoCallOutlinedIcon />}
+                    onClick={() => navigate('/publish-video')}
+                    sx={{
+                      display: { xs: 'none', sm: 'inline-flex' },
+                      borderRadius: 999,
+                      px: 2,
+                      py: 0.5,
+                      borderColor: 'rgba(255,255,255,0.18)',
+                      boxShadow: 'none',
+                      '&:hover': { borderColor: 'rgba(255,255,255,0.35)', bgcolor: 'rgba(255,255,255,0.06)', boxShadow: 'none' },
+                    }}
+                  >
+                    Upload
+                  </Button>
+                  <Tooltip title="Account">
+                    <IconButton onClick={(e) => setAccountAnchor(e.currentTarget)} aria-label="Account menu" sx={{ p: 0.25 }}>
+                      <Avatar src={currentUser.avatar} alt={currentUser.username} sx={{ width: 36, height: 36, border: '2px solid', borderColor: 'rgba(255,65,54,0.8)' }}>
+                        {currentUser.username?.[0]?.toUpperCase()}
+                      </Avatar>
+                    </IconButton>
+                  </Tooltip>
+                  <Menu
+                    anchorEl={accountAnchor}
+                    open={!!accountAnchor}
+                    onClose={() => setAccountAnchor(null)}
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                    transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                    slotProps={{ paper: { sx: { mt: 1, minWidth: 240 } } }}
+                  >
+                    <Box sx={{ px: 2, py: 1.5, display: 'flex', gap: 1.5, alignItems: 'center' }}>
+                      <Avatar src={currentUser.avatar} alt={currentUser.username}>{currentUser.username?.[0]?.toUpperCase()}</Avatar>
+                      <Box sx={{ minWidth: 0 }}>
+                        <Typography noWrap sx={{ fontWeight: 600 }}>{currentUser.fullName || currentUser.username}</Typography>
+                        <Typography variant="body2" noWrap>@{currentUser.username}</Typography>
+                      </Box>
+                    </Box>
+                    <Divider />
+                    <MenuItem onClick={() => { setAccountAnchor(null); navigate('/dashboard/stats'); }}>
+                      <ListItemIcon><InsightsOutlinedIcon fontSize="small" /></ListItemIcon>
+                      Your channel
+                    </MenuItem>
+                    <MenuItem onClick={handleLogout}>
+                      <ListItemIcon><LogoutIcon fontSize="small" /></ListItemIcon>
+                      Log out
+                    </MenuItem>
+                  </Menu>
+                </Box>
+              )}
+            </>
+          )}
         </Toolbar>
       </AppBar>
 
-      {/* Permanent Sidebar for large screens */}
-      {currentUser && (
-        <Drawer
-          variant="permanent"
+      {/* Logged out there's no sidebar, so the social links float instead */}
+      {!currentUser && (
+        <Box
           sx={{
-            width: 240,
-            flexShrink: 0,
-            [`& .MuiDrawer-paper`]: { width: 240, boxSizing: 'border-box', backgroundColor: 'background.paper', borderRight: '1px solid #333' },
-            display: { xs: 'none', md: 'block' }
+            position: 'fixed',
+            right: 12,
+            bottom: 24,
+            zIndex: 1000,
+            display: { xs: 'none', sm: 'flex' },
+            p: 0.5,
+            borderRadius: 3,
+            bgcolor: 'rgba(0,0,0,0.4)',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255,255,255,0.08)',
           }}
         >
-          <Box sx={{ p: 2}}>
-            <List>
-              {menuItems.map((item) => (
-                <ListItem
-                  button
-                  key={item.text}
-                  onClick={() => navigate(item.path)}
-                  sx={{
-                    borderRadius: '8px',
-                    mb: 1,
-                    '&:hover': {
-                      backgroundColor: 'rgba(255, 0, 0, 0.1)',
-                    },
-                    '&.Mui-selected': {
-                      backgroundColor: 'primary.main',
-                      color: 'white',
-                      '&:hover': {
-                        backgroundColor: 'primary.dark',
-                      },
-                    },
-                  }}
-                  selected={location.pathname === item.path}
-                >
-                  <ListItemIcon sx={{ color: 'inherit' }}>{item.icon}</ListItemIcon>
-                  <ListItemText primary={item.text} sx={{ color: 'text.primary' }} />
-                </ListItem>
-              ))}
-            </List>
-          </Box>
-        </Drawer>
+          <SocialLinks direction="column" />
+        </Box>
       )}
 
-      {/* Temporary Drawer for small screens */}
       {currentUser && (
-        <Drawer
-          anchor="left"
-          open={drawerOpen}
-          onClose={toggleDrawer(false)}
-          sx={{ display: { xs: 'block', md: 'none' } }}
-          PaperProps={{ sx: { backgroundColor: 'background.paper' } }}
-        >
-          <Box
-            sx={{ width: 250 }}
-            role="presentation"
-            onClick={toggleDrawer(false)}
-            onKeyDown={toggleDrawer(false)}
+        <>
+          <Drawer
+            variant="permanent"
+            sx={{
+              display: { xs: 'none', md: 'block' },
+              width: SIDEBAR_WIDTH,
+              flexShrink: 0,
+              '& .MuiDrawer-paper': {
+                width: SIDEBAR_WIDTH,
+                top: HEADER_HEIGHT,
+                height: `calc(100% - ${HEADER_HEIGHT}px)`,
+                boxSizing: 'border-box',
+                bgcolor: 'rgba(8, 8, 8, 0.55)',
+                backgroundImage: 'none',
+                backdropFilter: 'blur(16px)',
+                border: 0,
+                borderRight: '1px solid rgba(255, 255, 255, 0.06)',
+                borderRadius: 0,
+              },
+            }}
           >
-            <Toolbar />
-            <List>
-              {menuItems.map((item) => (
-                <ListItem button key={item.text} onClick={() => navigate(item.path)} sx={{ color: 'text.primary' }}>
-                  <ListItemIcon sx={{ color: 'text.primary' }}>{item.icon}</ListItemIcon>
-                  <ListItemText primary={item.text} />
-                </ListItem>
-              ))}
-            </List>
-          </Box>
-        </Drawer>
+            <Sidebar pathname={pathname} onNavigate={handleNavigate} />
+          </Drawer>
+
+          <Drawer
+            anchor="left"
+            open={drawerOpen}
+            onClose={() => setDrawerOpen(false)}
+            sx={{ display: { xs: 'block', md: 'none' } }}
+            PaperProps={{ sx: { width: 264, bgcolor: '#0E0E0E', backgroundImage: 'none', borderRadius: 0 } }}
+          >
+            <Toolbar sx={{ minHeight: `${HEADER_HEIGHT}px !important` }} />
+            <Sidebar pathname={pathname} onNavigate={handleNavigate} />
+          </Drawer>
+        </>
       )}
 
-      {/* Main Content Area */}
-      <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 8, bgcolor: 'background.default', minHeight: 'calc(100vh - 64px)' }}>
-        {children}
+      <Box
+        component="main"
+        sx={fullBleed ? { flexGrow: 1, minWidth: 0 } : {
+          flexGrow: 1,
+          minWidth: 0,
+          px: { xs: 2, sm: 3, lg: 4 },
+          pt: `${HEADER_HEIGHT + 24}px`,
+          pb: 8,
+        }}
+      >
+        <Box sx={fullBleed ? undefined : { maxWidth: 1800, mx: 'auto' }}>{children}</Box>
       </Box>
     </Box>
   );

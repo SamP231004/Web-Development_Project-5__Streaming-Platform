@@ -1,8 +1,6 @@
-import React from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import { styled } from '@mui/system';
 import { keyframes } from '@emotion/react';
-import { color, transform } from 'framer-motion';
 
 const slithyArcLeft = keyframes`
     0% { transform: translate(calc(50vw - 200px), 110vh) scale(0.4) rotateZ(0deg) skewY(0deg); opacity: 0; }
@@ -28,7 +26,7 @@ const RootContainer = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'center',
     perspective: '1000px',
-    height: '100%',
+    minHeight: '100vh',
     width: '100%',
     backgroundColor: 'transparent',
     color: theme.palette.text.primary,
@@ -124,9 +122,9 @@ const ButtonContainer = styled(Box)(({ theme }) => ({
 }));
 
 const CtaButton = styled(Button)(({ theme }) => ({
-    backgroundColor: '#ff4500',
+    backgroundColor: theme.palette.primary.main,
     color: theme.palette.common.white,
-    padding: '5px 10px',
+    padding: '14px 40px',
     height: 'fit-content',
     border: 'none',
     borderRadius: '8px',
@@ -134,14 +132,14 @@ const CtaButton = styled(Button)(({ theme }) => ({
     fontWeight: 'bold',
     cursor: 'pointer',
     transition: 'background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease',
-    boxShadow: `0 5px 15px rgba(255, 69, 0, 0.6)`,
+    boxShadow: `0 5px 15px rgba(255, 65, 54, 0.5)`,
     textTransform: 'uppercase',
     letterSpacing: '1px',
 
     '&:hover': {
-        backgroundColor: '#e03c00',
+        backgroundColor: theme.palette.primary.dark,
         transform: 'translateY(-3px)',
-        boxShadow: `0 8px 20px rgba(255, 69, 0, 0.9)`,
+        boxShadow: `0 8px 24px rgba(255, 65, 54, 0.8)`,
     },
 
     [theme.breakpoints.down('md')]: {
@@ -157,13 +155,13 @@ const CtaButton = styled(Button)(({ theme }) => ({
 
 const SecondaryButton = styled(CtaButton)(({ theme }) => ({
     backgroundColor: 'transparent',
-    border: `2px solid ${theme.palette.warning.main}`,
-    color: theme.palette.warning.main,
+    border: `2px solid ${theme.palette.secondary.main}`,
+    color: theme.palette.secondary.main,
     boxShadow: 'none',
     '&:hover': {
-        backgroundColor: 'rgba(255, 69, 0, 0.1)',
+        backgroundColor: 'rgba(0, 212, 255, 0.1)',
         transform: 'translateY(-3px)',
-        boxShadow: `0 3px 10px rgba(255, 69, 0, 0.3)`,
+        boxShadow: `0 3px 12px rgba(0, 212, 255, 0.35)`,
     },
 }));
 
@@ -175,7 +173,7 @@ const VideoAnimationWrapper = styled(Box)({
     zIndex: 2,
 });
 
-const VideoItem = styled(Box)(({ theme }) => ({
+const VideoItem = styled(Box)(() => ({
     position: 'absolute',
     width: '450px',
     height: '253px',

@@ -1,33 +1,32 @@
-const API_URL = import.meta.env.VITE_BACKEND_URL;
+import { useCallback, useState } from 'react';
+import api from '../../api.js';
 
-export const handleWatch = async (video, videos, setVideos, setErrorMessage) => {
-  const accessToken = localStorage.getItem('accessToken');
+export const incrementViews = async (videoId) => {
+  const { data } = await api.post(`/video/${videoId}/increment-views`);
+  return data.data?.views;
+};
 
-  try {
-    // Send a request to increment the view count
-    const response = await fetch(`${API_URL}/api/version_1/video/${video._id}/increment-views`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-    });
+// Returns the owner id whichever shape the backend sent the video in.
+export const getOwnerId = (video) =>
+  video?.ownerDetails?._id || (typeof video?.owner === 'string' ? video.owner : video?.owner?._id);
 
-    if (!response.ok) {
-      const errorBody = await response.json();
-      throw new Error(errorBody.message || 'Failed to update view count');
-    }
+// Opens a video in the player and counts a view. A failed view count must not
+// break the page, so it is only logged.
+export const useVideoPlayer = (setVideos) => {
+  const [selectedVideo, setSelectedVideo] = useState(null);
 
-    // Optionally, retrieve the updated video data from the server
-    const updatedVideo = await response.json();
+  const play = useCallback((video) => {
+    setSelectedVideo(video);
+    incrementViews(video._id)
+      .then((views) => {
+        if (typeof views === 'number' && setVideos) {
+          setVideos((prev) => prev.map((v) => (v._id === video._id ? { ...v, views } : v)));
+        }
+      })
+      .catch((error) => console.error('Failed to update view count:', error));
+  }, [setVideos]);
 
-    // Update the local state to reflect the new view count
-    const updatedVideos = videos.map((v) =>
-      v._id === video._id ? { ...v, views: updatedVideo.data.views } : v
-    );
-    setVideos(updatedVideos);
+  const close = useCallback(() => setSelectedVideo(null), []);
 
-  } catch (error) {
-    setErrorMessage(error.message);
-  }
+  return { selectedVideo, play, close };
 };

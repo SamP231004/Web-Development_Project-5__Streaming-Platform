@@ -1,89 +1,50 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { Button, CircularProgress } from '@mui/material';
+import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsActiveOutlined';
+import { useNotify } from '../common/Notify.jsx';
+import { useSubscription } from './useSubscription.js';
 
-const API_URL = import.meta.env.VITE_BACKEND_URL;
+const ToggleSubscriptionButton = ({ channelId, size = 'small' }) => {
+  const { isSubscribed, loading, toggle, canSubscribe } = useSubscription(channelId);
+  const notify = useNotify();
 
-const ToggleSubscriptionButton = ({ channelId }) => {
-    const [isSubscribed, setIsSubscribed] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const token = localStorage.getItem('accessToken');
+  const handleToggle = async (event) => {
+    event.stopPropagation();
+    try {
+      const subscribed = await toggle();
+      notify(subscribed ? 'Subscribed to channel' : 'Unsubscribed from channel', 'success');
+    }
+    catch (error) {
+      console.error('Toggle error:', error);
+      notify('Failed to update subscription.', 'error');
+    }
+  };
 
-    useEffect(() => {
-        if (!token || !channelId) return;
+  if (!canSubscribe) return null;
 
-        const checkSubscription = async () => {
-  try {
-    const res = await axios.get(
-      `${API_URL}/api/version_1/subscriptions/channel/${channelId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    // console.log('Subscription API response:', res.data);
-    setIsSubscribed(res.data.data.length > 0);
-  } catch (err) {
-    console.error('Error checking subscription:', err);
-    setError('Failed to fetch subscription status.');
-  }
-};
-5
-        checkSubscription();
-    }, [channelId, token]);
-
-    const handleToggle = async () => {
-        if (!token) {
-            setError('User not authenticated');
-            return;
-        }
-
-        setLoading(true);
-        setError(null);
-        try {
-            const res = await axios.post(
-                `${API_URL}/api/version_1/subscriptions/channel/${channelId}`,
-                {},
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-            setIsSubscribed(res.data.data.subscribed);
-        } catch (err) {
-            console.error('Toggle error:', err);
-            setError('Failed to toggle subscription.');
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    if (isSubscribed === null) return null;
-
-    return (
-        <div>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <button
-                style={{
-                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                    color: 'white',
-                    borderRadius: '10px',
-                    padding: '8px 16px',
-                    border: '0.5px solid white',
-                    cursor: 'pointer'
-                }}
-                onClick={(e) => {
-                    e.stopPropagation();
-                    handleToggle();
-                }}
-                disabled={loading}
-            >
-                {loading ? 'Processing...' : isSubscribed ? 'Unsubscribe' : 'Subscribe'}
-            </button>
-        </div>
-    );
+  return (
+    <Button
+      size={size}
+      variant={isSubscribed ? 'outlined' : 'contained'}
+      color={isSubscribed ? 'inherit' : 'primary'}
+      onClick={handleToggle}
+      disabled={loading || isSubscribed === null}
+      startIcon={isSubscribed ? <NotificationsActiveOutlinedIcon fontSize="small" /> : null}
+      sx={{
+        borderRadius: 999,
+        px: size === 'small' ? 1.75 : 2.25,
+        py: 0,
+        minHeight: size === 'small' ? 32 : 38,
+        minWidth: size === 'small' ? 100 : 120,
+        fontSize: size === 'small' ? '0.85rem' : '0.95rem',
+        whiteSpace: 'nowrap',
+        boxShadow: 'none',
+        '&:hover': { boxShadow: 'none' },
+        ...(isSubscribed && { borderColor: 'rgba(255,255,255,0.3)', color: 'text.primary' }),
+      }}
+    >
+      {loading ? <CircularProgress size={18} color="inherit" /> : isSubscribed ? 'Subscribed' : 'Subscribe'}
+    </Button>
+  );
 };
 
 export default ToggleSubscriptionButton;

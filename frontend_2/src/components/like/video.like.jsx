@@ -1,78 +1,67 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { Button } from '@mui/material';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
+import api from '../../api.js';
+import { formatCount } from '../../utils/format.js';
+import { useNotify } from '../common/Notify.jsx';
 
-import like from '../../Images_Used/image_5.png'
-
-const API_URL = import.meta.env.VITE_BACKEND_URL;
-
-const VideoLike = ({ videoId, accessToken }) => {
+const VideoLike = ({ videoId }) => {
   const [likeCount, setLikeCount] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
-
-  const fetchLikeData = async () => {
-    try {
-      const countResponse = await axios.get(
-        `${API_URL}/api/version_1/likes/video/${videoId}/like-count`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      const count = countResponse.data.data.likeCount;
-      setLikeCount(count); 
-
-      const userLikedResponse = await axios.get(
-        `${API_URL}/api/version_1/likes/video/${videoId}/user-liked`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      setIsLiked(userLikedResponse.data.isLiked); 
-    } catch (error) {
-      console.error('Error fetching like data:', error);
-    }
-  };
-
-  const toggleLike = async () => {
-    try {
-      const response = await axios.post(
-        `${API_URL}/api/version_1/likes/video/${videoId}/like`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-
-      if (response.data.success) {
-        fetchLikeData();
-      }
-    } 
-    catch (error) {
-      console.error('Error liking/unliking video:', error);
-    }
-  };
+  const [pending, setPending] = useState(false);
+  const notify = useNotify();
 
   useEffect(() => {
-    if (accessToken) {
-      fetchLikeData();
+    if (!videoId) return;
+    let active = true;
+
+    Promise.all([
+      api.get(`/likes/video/${videoId}/like-count`),
+      api.get(`/likes/video/${videoId}/user-liked`),
+    ])
+      .then(([countRes, likedRes]) => {
+        if (!active) return;
+        setLikeCount(countRes.data.data.likeCount);
+        setIsLiked(!!likedRes.data.data?.isLiked);
+      })
+      .catch((error) => console.error('Error fetching like data:', error));
+
+    return () => { active = false; };
+  }, [videoId]);
+
+  const toggleLike = async () => {
+    const wasLiked = isLiked;
+    setPending(true);
+    setIsLiked(!wasLiked);
+    setLikeCount((count) => count + (wasLiked ? -1 : 1));
+    try {
+      const { data } = await api.post(`/likes/video/${videoId}/like`);
+      setIsLiked(!!data.data?.isLiked);
     }
-  }, [accessToken, videoId]);
+    catch (error) {
+      console.error('Error liking/unliking video:', error);
+      setIsLiked(wasLiked);
+      setLikeCount((count) => count + (wasLiked ? 1 : -1));
+      notify('Could not update your like. Please try again.', 'error');
+    }
+    finally {
+      setPending(false);
+    }
+  };
 
   return (
-    <div className="like-section">
-      <img
-        src={like}
-        alt={isLiked ? "Unlike" : "Like"}
-        onClick={toggleLike}
-        className="like-button"
-      />
-      <p className="like-count">{likeCount} {likeCount === 1 ? 'Like' : 'Likes'}</p>
-    </div>
+    <Button
+      variant={isLiked ? 'contained' : 'outlined'}
+      color="primary"
+      onClick={toggleLike}
+      disabled={pending}
+      startIcon={isLiked ? <ThumbUpIcon /> : <ThumbUpOutlinedIcon />}
+      aria-pressed={isLiked}
+      sx={{ borderRadius: 999, px: 2, py: 0.75 }}
+    >
+      {formatCount(likeCount)}
+    </Button>
   );
 };
 
